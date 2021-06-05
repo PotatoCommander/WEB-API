@@ -5,10 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using WEB_API.Models;
 
 namespace WEB_API.Controllers
 {
+    [ApiController]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -17,21 +17,13 @@ namespace WEB_API.Controllers
         {
             _logger = logger;
         }
-
-        public IActionResult Index()
+        
+        [HttpGet("/getinfo")]
+        public JsonResult GetInfo()
         {
-            return View();
+            var str = "Hello world!";
+            return Json(str);
         }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
-        }
+        
     }
 }

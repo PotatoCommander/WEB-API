@@ -1,6 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEB-API", "WEB-API\WEB-API.csproj", "{9CB3B61E-75C3-49A9-BD4A-029CB06E97DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{9CB3B61E-75C3-49A9-BD4A-029CB06E97DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buisness", "Buisness\Buisness.csproj", "{1787B56A-42E3-4D5D-B215-6904A3D24FC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{7BC068ED-0763-4A5F-87AA-57A37C3A9E6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +16,13 @@ Global
 		{9CB3B61E-75C3-49A9-BD4A-029CB06E97DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CB3B61E-75C3-49A9-BD4A-029CB06E97DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CB3B61E-75C3-49A9-BD4A-029CB06E97DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1787B56A-42E3-4D5D-B215-6904A3D24FC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1787B56A-42E3-4D5D-B215-6904A3D24FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1787B56A-42E3-4D5D-B215-6904A3D24FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1787B56A-42E3-4D5D-B215-6904A3D24FC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BC068ED-0763-4A5F-87AA-57A37C3A9E6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BC068ED-0763-4A5F-87AA-57A37C3A9E6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BC068ED-0763-4A5F-87AA-57A37C3A9E6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BC068ED-0763-4A5F-87AA-57A37C3A9E6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
