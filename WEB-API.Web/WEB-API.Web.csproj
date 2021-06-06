@@ -20,4 +20,8 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WEB-API.DAL\WEB-API.DAL.csproj" />
+  </ItemGroup>
+
 </Project>
