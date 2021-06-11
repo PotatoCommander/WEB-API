@@ -2,7 +2,7 @@
 
 namespace WEB_API.DAL.ViewModels
 {
-    public class AuthViewModel
+    public class UserLoginViewModel
     {
         [Required(ErrorMessage = "Email required")]
         [EmailAddress(ErrorMessage = "Invalid email")]
@@ -12,5 +12,6 @@ namespace WEB_API.DAL.ViewModels
         [MaxLength(50)]
         [RegularExpression("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$", ErrorMessage = "Invalid password")]
         public string Password { get; set; }
+        
     }
 }
