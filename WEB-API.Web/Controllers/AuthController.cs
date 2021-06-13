@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +24,7 @@ namespace WEB_API.Web.Controllers
             _signInManager = signInManager;
             _emailService = emailService;
         }
-        
+
         [HttpPost("signup")]
         public async Task<IActionResult> SignUp(UserLoginViewModel model)
         {
@@ -34,35 +33,32 @@ namespace WEB_API.Web.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null)
                 {
-                    var applicationUser = new ApplicationUser()
-                    {
-                        UserName = model.Email,
-                        Email = model.Email,
-                    };
+                    var applicationUser = new ApplicationUser {UserName = model.Email, Email = model.Email};
 
                     var result = await _userManager.CreateAsync(applicationUser, model.Password);
                     if (result.Succeeded)
                     {
                         var token = await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser);
                         var confirmationUrl = Url.Action("ConfirmEmail", "Auth",
-                            new {userId = applicationUser.Id, confirmToken = token},
-                            HttpContext.Request.Scheme);
+                            new {userId = applicationUser.Id, confirmToken = token}, HttpContext.Request.Scheme);
                         var messageBody = $"Follow the next link to confirm your account:" +
                                           $" <a href='{confirmationUrl}'>link</a>";
-                        await _emailService.Send(applicationUser.Email,"New account confirmation.", messageBody);
+
+                        await _emailService.Send(applicationUser.Email, "New account confirmation.", messageBody);
                         return StatusCode(201);
                     }
 
                     ModelState.AddModelError("", "Registration failed");
                     return BadRequest(GetModelStateErrors(ModelState));
                 }
-                
+
                 ModelState.AddModelError("", "User with such email already exist");
                 return BadRequest(GetModelStateErrors(ModelState));
             }
 
             return BadRequest(GetModelStateErrors(ModelState));
         }
+
         //TODO: Errors +-
         //TODO: Service to send confirmation email
         //TODO: Automapper
@@ -72,15 +68,10 @@ namespace WEB_API.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result =  await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-                if (result.Succeeded)
-                {
-                    return StatusCode(200);
-                }
-                
-                return StatusCode(401);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+                return StatusCode(result.Succeeded ? 200 : 401);
             }
-            
+
             return StatusCode(401);
         }
 

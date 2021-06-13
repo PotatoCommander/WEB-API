@@ -24,9 +24,9 @@ namespace WEB_API.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().ConfigureApiBehaviorOptions(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;
-            });
+                {
+                    options.SuppressModelStateInvalidFilter = true;
+                });
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -44,14 +44,11 @@ namespace WEB_API.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-            
-            //app.UseSwagger();
-            //app.UseSwaggerUI();
         }
     }
 }

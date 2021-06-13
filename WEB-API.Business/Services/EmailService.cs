@@ -14,10 +14,7 @@ namespace WEB_API.Business.Services
             emailMessage.From.Add(new MailboxAddress("Confirmation service", ""));
             emailMessage.To.Add(new MailboxAddress("New user", email));
             emailMessage.Subject = subject;
-            emailMessage.Body = new TextPart(TextFormat.Html)
-            {
-                Text = message
-            };
+            emailMessage.Body = new TextPart(TextFormat.Html) {Text = message};
 
             using (var client = new SmtpClient())
             {
