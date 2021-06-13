@@ -4,6 +4,6 @@ namespace WEB_API.Business.Interfaces
 {
     public interface IEmailService
     {
-        Task Send();
+        Task Send(string email ,string subject, string message);
     }
 }

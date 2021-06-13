@@ -15,10 +15,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Configs" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WEB-API.Business\WEB-API.Business.csproj" />
     <ProjectReference Include="..\WEB-API.DAL\WEB-API.DAL.csproj" />
   </ItemGroup>
 
