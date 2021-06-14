@@ -41,7 +41,7 @@ namespace WEB_API.Web.Controllers
                         var token = await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser);
                         var confirmationUrl = Url.Action("ConfirmEmail", "Auth",
                             new {userId = applicationUser.Id, confirmToken = token}, HttpContext.Request.Scheme);
-                        var messageBody = $"Follow the next link to confirm your account:" +
+                        var messageBody = "Follow the next link to confirm your account:" +
                                           $" <a href='{confirmationUrl}'>link</a>";
 
                         await _emailService.Send(applicationUser.Email, "New account confirmation.", messageBody);
@@ -69,10 +69,9 @@ namespace WEB_API.Web.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-                return StatusCode(result.Succeeded ? 200 : 401);
+                return result.Succeeded ? StatusCode(201) : Unauthorized();
             }
-
-            return StatusCode(401);
+            return Unauthorized();
         }
 
         [HttpGet("confirm")]

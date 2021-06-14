@@ -3,11 +3,17 @@ using MailKit.Net.Smtp;
 using MimeKit;
 using MimeKit.Text;
 using WEB_API.Business.Interfaces;
+using WEB_API.Business.Settings;
 
 namespace WEB_API.Business.Services
 {
     public class EmailService : IEmailService
     {
+        private EmailServiceOptions _options;
+        public EmailService(EmailServiceOptions options)
+        {
+            _options = options;
+        }
         public async Task Send(string email, string subject, string message)
         {
             var emailMessage = new MimeMessage();
@@ -18,8 +24,8 @@ namespace WEB_API.Business.Services
 
             using (var client = new SmtpClient())
             {
-                await client.ConnectAsync("smtp.gmail.com", 465, true);
-                await client.AuthenticateAsync("potcomemailsender@gmail.com", "Amogus_1234");
+                await client.ConnectAsync(_options.SmtpUrl, _options.SmtpPort, _options.UseSsl);
+                await client.AuthenticateAsync(_options.Email, _options.Password);
                 await client.SendAsync(emailMessage);
                 await client.DisconnectAsync(true);
             }
