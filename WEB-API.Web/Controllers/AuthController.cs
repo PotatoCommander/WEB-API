@@ -26,6 +26,7 @@ namespace WEB_API.Web.Controllers
         }
 
         [HttpPost("signup")]
+        [AllowAnonymous]
         public async Task<IActionResult> SignUp(UserLoginViewModel model)
         {
             if (ModelState.IsValid)
@@ -38,6 +39,7 @@ namespace WEB_API.Web.Controllers
                     var result = await _userManager.CreateAsync(applicationUser, model.Password);
                     if (result.Succeeded)
                     {
+                        await _userManager.AddToRoleAsync(applicationUser, "user");
                         var token = await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser);
                         var confirmationUrl = Url.Action("ConfirmEmail", "Auth",
                             new {userId = applicationUser.Id, confirmToken = token}, HttpContext.Request.Scheme);
@@ -58,22 +60,21 @@ namespace WEB_API.Web.Controllers
 
             return BadRequest(GetModelStateErrors(ModelState));
         }
-
-        //TODO: Errors +-
-        //TODO: Service to send confirmation email
+        
         //TODO: Automapper
         //TODO: Roles
         [HttpPost("signin")]
+        [AllowAnonymous]
         public async Task<IActionResult> SignIn(UserLoginViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-                return result.Succeeded ? StatusCode(201) : Unauthorized();
+                return result.Succeeded ? StatusCode(201) : Unauthorized(null);
             }
-            return Unauthorized();
+            return Unauthorized(null);
         }
-
+        
         [HttpGet("confirm")]
         public async Task<IActionResult> ConfirmEmail(string userId, string confirmToken)
         {

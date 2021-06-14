@@ -35,9 +35,9 @@ namespace WEB_API.Web
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-            
-            var options = Configuration.GetSection("EmailService").Get<EmailServiceOptions>();
-            services.AddTransient<IEmailService>(s => new EmailService(options));
+
+            var emailOptions = Configuration.GetSection("EmailService").Get<EmailServiceOptions>();
+            services.AddTransient<IEmailService>(s => new EmailService(emailOptions));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
