@@ -14,13 +14,15 @@ namespace WEB_API.Business.Services
         {
             _options = options;
         }
-        public async Task Send(string email, string subject, string message)
+        public async Task Send(string email, string subject, string confirmationUrl)
         {
+            var messageBody = "Follow the next link to confirm your account:" +
+                              $" <a href='{confirmationUrl}'>link</a>";
             var emailMessage = new MimeMessage();
             emailMessage.From.Add(new MailboxAddress("Confirmation service", ""));
             emailMessage.To.Add(new MailboxAddress("New user", email));
             emailMessage.Subject = subject;
-            emailMessage.Body = new TextPart(TextFormat.Html) {Text = message};
+            emailMessage.Body = new TextPart(TextFormat.Html) {Text = messageBody};
 
             using (var client = new SmtpClient())
             {

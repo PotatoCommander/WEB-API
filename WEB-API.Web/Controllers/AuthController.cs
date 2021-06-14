@@ -26,7 +26,6 @@ namespace WEB_API.Web.Controllers
         }
 
         [HttpPost("signup")]
-        [AllowAnonymous]
         public async Task<IActionResult> SignUp(UserLoginViewModel model)
         {
             if (ModelState.IsValid)
@@ -39,14 +38,10 @@ namespace WEB_API.Web.Controllers
                     var result = await _userManager.CreateAsync(applicationUser, model.Password);
                     if (result.Succeeded)
                     {
-                        await _userManager.AddToRoleAsync(applicationUser, "user");
                         var token = await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser);
                         var confirmationUrl = Url.Action("ConfirmEmail", "Auth",
                             new {userId = applicationUser.Id, confirmToken = token}, HttpContext.Request.Scheme);
-                        var messageBody = "Follow the next link to confirm your account:" +
-                                          $" <a href='{confirmationUrl}'>link</a>";
-
-                        await _emailService.Send(applicationUser.Email, "New account confirmation.", messageBody);
+                        await _emailService.Send(applicationUser.Email, "New account confirmation.", confirmationUrl);
                         return StatusCode(201);
                     }
 
@@ -62,17 +57,21 @@ namespace WEB_API.Web.Controllers
         }
         
         //TODO: Automapper
-        //TODO: Roles
         [HttpPost("signin")]
-        [AllowAnonymous]
         public async Task<IActionResult> SignIn(UserLoginViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-                return result.Succeeded ? StatusCode(201) : Unauthorized(null);
+                if (result.Succeeded)
+                {
+                    return StatusCode(201);
+                }
+
+                return Unauthorized(GetModelStateErrors(ModelState));
             }
-            return Unauthorized(null);
+            
+            return BadRequest(GetModelStateErrors(ModelState));
         }
         
         [HttpGet("confirm")]
@@ -94,7 +93,8 @@ namespace WEB_API.Web.Controllers
             var result = await _userManager.ConfirmEmailAsync(user, confirmToken);
             if (result.Succeeded)
             {
-                return StatusCode(200);
+                await _userManager.AddToRoleAsync(user, "user");
+                return Ok("Confirmed");
             }
 
             ModelState.AddModelError("", "Confirmation failed");
