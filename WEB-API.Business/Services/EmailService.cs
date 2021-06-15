@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
 using MimeKit.Text;
@@ -12,7 +13,7 @@ namespace WEB_API.Business.Services
         private EmailServiceOptions _options;
         public EmailService(EmailServiceOptions options)
         {
-            _options = options;
+            _options = options ?? throw new ArgumentNullException(nameof(options), "Null argument");
         }
         public async Task Send(string email, string subject, string confirmationUrl)
         {

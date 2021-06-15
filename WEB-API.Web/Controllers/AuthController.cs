@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,13 +17,15 @@ namespace WEB_API.Web.Controllers
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
         private IEmailService _emailService;
+        private IMapper _mapper;
 
         public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
-            IEmailService emailService)
+            IEmailService emailService, IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
+            _mapper = mapper;
         }
 
         [HttpPost("signup")]
@@ -33,8 +36,7 @@ namespace WEB_API.Web.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null)
                 {
-                    var applicationUser = new ApplicationUser {UserName = model.Email, Email = model.Email};
-
+                    var applicationUser = _mapper.Map<ApplicationUser>(model);
                     var result = await _userManager.CreateAsync(applicationUser, model.Password);
                     if (result.Succeeded)
                     {
@@ -56,7 +58,6 @@ namespace WEB_API.Web.Controllers
             return BadRequest(GetModelStateErrors(ModelState));
         }
         
-        //TODO: Automapper
         [HttpPost("signin")]
         public async Task<IActionResult> SignIn(UserLoginViewModel model)
         {
@@ -88,6 +89,12 @@ namespace WEB_API.Web.Controllers
             {
                 ModelState.AddModelError("", "User not found");
                 return NotFound(GetModelStateErrors(ModelState));
+            }
+
+            if (user.EmailConfirmed)
+            {
+                ModelState.AddModelError("","User already confirmed");
+                return BadRequest(GetModelStateErrors(ModelState));
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, confirmToken);
