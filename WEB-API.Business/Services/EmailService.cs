@@ -17,7 +17,7 @@ namespace WEB_API.Business.Services
         }
         public async Task Send(string email, string subject, string confirmationUrl)
         {
-            var messageBody = "Follow the next link to confirm your account:" +
+            var messageBody = "Follow the next link to confirm your email:" +
                               $" <a href='{confirmationUrl}'>link</a>";
             var emailMessage = new MimeMessage();
             emailMessage.From.Add(new MailboxAddress("Confirmation service", ""));
