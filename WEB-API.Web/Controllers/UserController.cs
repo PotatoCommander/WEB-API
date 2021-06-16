@@ -101,5 +101,19 @@ namespace WEB_API.Web.Controllers
             ModelState.AddModelError("", "Changing failed");
             return BadRequest(GetModelStateErrors(ModelState));
         }
+
+        [HttpGet("userinfo")]
+        [Authorize]
+        public async Task<ActionResult> GetUserInfo()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                ModelState.AddModelError("","User not found");
+                return BadRequest(GetModelStateErrors(ModelState));
+            }
+            return new JsonResult(user);
+        }
+        
     }
 }
