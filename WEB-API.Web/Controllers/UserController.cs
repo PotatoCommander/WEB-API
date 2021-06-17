@@ -24,6 +24,29 @@ namespace WEB_API.Web.Controllers
             _mapper = mapper;
         }
 
+        [HttpPost("ChangePassword")]
+        [Authorize]
+        public async Task<ActionResult> ChangePassword(PasswordChangingViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user != null)
+                {
+                    var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        return Ok();
+                    }
+                    ModelState.AddModelError("", "Password changing failed");
+                    return BadRequest(GetModelStateErrors(ModelState));
+                }
+                ModelState.AddModelError("", "User not found");
+                return NotFound(GetModelStateErrors(ModelState));
+            }
+
+            return BadRequest(GetModelStateErrors(ModelState));
+        }
         [HttpPut("UpdateUser")]
         [Authorize]
         public async Task<ActionResult> UpdateUser(UserInfoViewModel model)
@@ -43,7 +66,7 @@ namespace WEB_API.Web.Controllers
 
                         user.NewEmail = model.Email;
                         var token = await _userManager.GenerateChangeEmailTokenAsync(user, model.Email);
-                        var confirmationUrl = Url.Action("ChangeEmail", "User",
+                        var confirmationUrl = Url.Action("ChangeEmailConfirm", "User",
                             new {userId = user.Id, changeToken = token}, HttpContext.Request.Scheme);
                         await _emailService.Send(model.Email, "New email confirmation.", confirmationUrl);
                     }
@@ -69,7 +92,7 @@ namespace WEB_API.Web.Controllers
         }
 
         [HttpGet("ChangeEmail")]
-        public async Task<ActionResult> ChangeEmail(string userId, string changeToken)
+        public async Task<ActionResult> ChangeEmailConfirm(string userId, string changeToken)
         {
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(changeToken))
             {
@@ -82,12 +105,6 @@ namespace WEB_API.Web.Controllers
             {
                 ModelState.AddModelError("", "User not found");
                 return NotFound(GetModelStateErrors(ModelState));
-            }
-            
-            if (user.NewEmail == null)
-            {
-                ModelState.AddModelError("","New email doesnt exist");
-                return BadRequest(GetModelStateErrors(ModelState));
             }
 
             var changeResult = await _userManager.ChangeEmailAsync(user, user.NewEmail, changeToken);
@@ -113,7 +130,7 @@ namespace WEB_API.Web.Controllers
             if (user == null)
             {
                 ModelState.AddModelError("","User not found");
-                return BadRequest(GetModelStateErrors(ModelState));
+                return NotFound(GetModelStateErrors(ModelState));
             }
             return new JsonResult(_mapper.Map<UserInfoViewModel>(user));
         }
