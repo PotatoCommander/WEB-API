@@ -4,9 +4,9 @@ using WEB_API.DAL.ViewModels;
 
 namespace WEB_API.Web.Helpers.MapperProfiles
 {
-    public class UserProfile: Profile
+    public class UserLoginProfile: Profile
     {
-        public UserProfile()
+        public UserLoginProfile()
         {
             CreateMap<UserLoginViewModel, ApplicationUser>()
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))

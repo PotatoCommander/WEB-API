@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +15,13 @@ namespace WEB_API.Web.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private IEmailService _emailService;
+        private IMapper _mapper;
 
-        public UserController(UserManager<ApplicationUser> userManager, IEmailService emailService)
+        public UserController(UserManager<ApplicationUser> userManager, IEmailService emailService, IMapper mapper)
         {
             _userManager = userManager;
             _emailService = emailService;
+            _mapper = mapper;
         }
 
         [HttpPut("UpdateUser")]
@@ -112,7 +115,7 @@ namespace WEB_API.Web.Controllers
                 ModelState.AddModelError("","User not found");
                 return BadRequest(GetModelStateErrors(ModelState));
             }
-            return new JsonResult(user);
+            return new JsonResult(_mapper.Map<UserInfoViewModel>(user));
         }
         
     }
