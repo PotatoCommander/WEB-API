@@ -57,7 +57,7 @@ namespace WEB_API.Web.Controllers
 
             return BadRequest(GetModelStateErrors(ModelState));
         }
-        
+
         [HttpPost("signin")]
         public async Task<IActionResult> SignIn(UserLoginViewModel model)
         {
@@ -71,10 +71,10 @@ namespace WEB_API.Web.Controllers
 
                 return Unauthorized(GetModelStateErrors(ModelState));
             }
-            
+
             return BadRequest(GetModelStateErrors(ModelState));
         }
-        
+
         [HttpGet("confirm")]
         public async Task<IActionResult> ConfirmEmail(string userId, string confirmToken)
         {
@@ -93,7 +93,7 @@ namespace WEB_API.Web.Controllers
 
             if (user.EmailConfirmed)
             {
-                ModelState.AddModelError("","User already confirmed");
+                ModelState.AddModelError("", "User already confirmed");
                 return BadRequest(GetModelStateErrors(ModelState));
             }
 

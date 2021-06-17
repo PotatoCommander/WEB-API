@@ -35,7 +35,7 @@ namespace WEB_API.Web.Controllers
                     ModelState.AddModelError("", "New password is same to old");
                     return BadRequest(GetModelStateErrors(ModelState));
                 }
-                
+
                 var user = await _userManager.GetUserAsync(User);
                 if (user != null)
                 {
@@ -44,17 +44,18 @@ namespace WEB_API.Web.Controllers
                     {
                         return Ok();
                     }
-                    
+
                     ModelState.AddModelError("", "Password changing failed");
                     return BadRequest(GetModelStateErrors(ModelState));
                 }
-                
+
                 ModelState.AddModelError("", "User not found");
                 return NotFound(GetModelStateErrors(ModelState));
             }
 
             return BadRequest(GetModelStateErrors(ModelState));
         }
+
         [HttpPut("UpdateUser")]
         [Authorize]
         public async Task<ActionResult> UpdateUser(UserInfoViewModel model)
@@ -121,10 +122,9 @@ namespace WEB_API.Web.Controllers
                 user.NewEmail = null;
                 var updateResult = await _userManager.UpdateAsync(user);
                 if (updateResult.Succeeded)
-                { 
+                {
                     return Ok("Changed");
                 }
-                
             }
 
             ModelState.AddModelError("", "Changing failed");
@@ -138,11 +138,11 @@ namespace WEB_API.Web.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                ModelState.AddModelError("","User not found");
+                ModelState.AddModelError("", "User not found");
                 return NotFound(GetModelStateErrors(ModelState));
             }
+
             return new JsonResult(_mapper.Map<UserInfoViewModel>(user));
         }
-        
     }
 }
