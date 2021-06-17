@@ -9,6 +9,7 @@ using WEB_API.Business.Services;
 using WEB_API.Business.Settings;
 using WEB_API.DAL.Data;
 using WEB_API.DAL.Models;
+using WEB_API.DAL.Repositories;
 
 namespace WEB_API.Web
 {
@@ -41,6 +42,7 @@ namespace WEB_API.Web
             
             var emailOptions = Configuration.GetSection("EmailService").Get<EmailServiceOptions>();
             services.AddTransient<IEmailService>(s => new EmailService(emailOptions));
+            services.AddTransient<IRepository, ProductRepository>();
             services.AddAutoMapper(typeof(Startup));
         }
 
