@@ -30,6 +30,12 @@ namespace WEB_API.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.OldPassword == model.NewPassword)
+                {
+                    ModelState.AddModelError("", "New password is same to old");
+                    return BadRequest(GetModelStateErrors(ModelState));
+                }
+                
                 var user = await _userManager.GetUserAsync(User);
                 if (user != null)
                 {
@@ -38,9 +44,11 @@ namespace WEB_API.Web.Controllers
                     {
                         return Ok();
                     }
+                    
                     ModelState.AddModelError("", "Password changing failed");
                     return BadRequest(GetModelStateErrors(ModelState));
                 }
+                
                 ModelState.AddModelError("", "User not found");
                 return NotFound(GetModelStateErrors(ModelState));
             }
@@ -60,7 +68,7 @@ namespace WEB_API.Web.Controllers
                     {
                         if (user.Email == model.Email)
                         {
-                            ModelState.AddModelError("", "New email is similar to current");
+                            ModelState.AddModelError("", "New email is same to current");
                             return BadRequest(GetModelStateErrors(ModelState));
                         }
 
@@ -113,9 +121,10 @@ namespace WEB_API.Web.Controllers
                 user.NewEmail = null;
                 var updateResult = await _userManager.UpdateAsync(user);
                 if (updateResult.Succeeded)
-                {
+                { 
                     return Ok("Changed");
                 }
+                
             }
 
             ModelState.AddModelError("", "Changing failed");
