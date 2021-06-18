@@ -6,6 +6,7 @@ namespace WEB_API.DAL.Repositories
 {
     public interface IRepository
     {
+        bool Add(Product item);
         IEnumerable<Product> GetAll();
     }
 }
