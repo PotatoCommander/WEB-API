@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using WEB_API.DAL.Models;
 using WEB_API.DAL.Models.Enums;
 
@@ -119,6 +120,10 @@ namespace WEB_API.DAL.Data
             };
             builder.Entity<Product>().HasData(games);
             base.OnModelCreating(builder);
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
         }
     }
 }
