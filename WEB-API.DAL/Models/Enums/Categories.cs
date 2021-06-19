@@ -2,6 +2,7 @@
 {
     public enum Categories
     {
+        None,
         PC,
         XBOX360,
         PS5,
