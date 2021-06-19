@@ -4,11 +4,11 @@ using WEB_API.DAL.ViewModels;
 
 namespace WEB_API.Web.Helpers.MapperProfiles
 {
-    public class ProductViewModel: Profile
+    public class EditProductViewModelProfile: Profile
     {
-        public ProductViewModel()
+        public EditProductViewModelProfile()
         {
-            CreateMap<AddProductViewModel, Product>();
+            CreateMap<EditProductViewModel, Product>();
         }
     }
 }

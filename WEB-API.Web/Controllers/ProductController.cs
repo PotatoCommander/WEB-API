@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using WEB_API.DAL.Models;
 using WEB_API.DAL.Repositories;
 using WEB_API.DAL.ViewModels;
@@ -41,14 +40,14 @@ namespace WEB_API.Web.Controllers
         }
         [HttpPost("AddProduct")]
         [Authorize(Roles = Roles.Admin)]
-        public ActionResult AddProduct(AddProductViewModel model)
+        public async Task<ActionResult> AddProduct(AddProductViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var isSucceeded = _repository.Add(_mapper.Map<Product>(model));
-                if (isSucceeded)
+                var result = await _repository.Add(_mapper.Map<Product>(model));
+                if (result != null)
                 {
-                    return Ok();
+                    return new JsonResult(result);
                 }
                 ModelState.AddModelError("","An error occured when updating database.");
                 return BadRequest(GetModelStateErrors(ModelState));
@@ -56,5 +55,37 @@ namespace WEB_API.Web.Controllers
 
             return BadRequest(GetModelStateErrors(ModelState));
         }
+
+        [HttpDelete("Delete")]
+        [Authorize(Roles = Roles.Admin)]
+        public async Task<ActionResult> DeleteProduct(int id)
+        {
+            var deleted = await _repository.Delete(id);
+            if (deleted != null)
+            {
+                return new JsonResult(deleted);
+            }
+            ModelState.AddModelError("", "Requested item not found");
+            return NotFound(GetModelStateErrors(ModelState));
+        }
+
+        [HttpPut("Update")]
+        [Authorize(Roles = Roles.Admin)]
+        public async Task<ActionResult> UpdateProduct(EditProductViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _repository.Update(_mapper.Map<Product>(model));
+                if (result != null)
+                {
+                    return new JsonResult(result);
+                }
+                ModelState.AddModelError("","An error occured when updating database.");
+                return BadRequest(GetModelStateErrors(ModelState));
+            }
+
+            return BadRequest(GetModelStateErrors(ModelState));
+        }
+        
     }
 }
