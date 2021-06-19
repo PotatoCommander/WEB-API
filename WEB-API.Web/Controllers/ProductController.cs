@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WEB_API.Business.Interfaces;
 using WEB_API.DAL.Models;
+using WEB_API.DAL.Models.Filters;
 using WEB_API.DAL.Repositories;
 using WEB_API.DAL.ViewModels;
 using WEB_API.Web.Helpers;
@@ -16,11 +20,13 @@ namespace WEB_API.Web.Controllers
     {
         private IRepository _repository;
         private IMapper _mapper;
+        private IDomainService _productService;
 
-        public ProductController(IRepository repository, IMapper mapper)
+        public ProductController(IRepository repository, IMapper mapper, IDomainService productService)
         {
             _mapper = mapper;
             _repository = repository;
+            _productService = productService;
         }
         [HttpGet("GetAll")]
         [AllowAnonymous]
@@ -55,6 +61,23 @@ namespace WEB_API.Web.Controllers
 
             return BadRequest(GetModelStateErrors(ModelState));
         }
+        //DEBUG------------------------------------------------------------------------
+        [HttpPost("AddProducts")]
+        public async Task<ActionResult> AddProducts(List<AddProductViewModel> model)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var item in model)
+                {
+                    await _repository.Add(_mapper.Map<Product>(item));
+                }
+
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+        //DEBUG------------------------------------------------------------------------
 
         [HttpDelete("Delete")]
         [Authorize(Roles = Roles.Admin)]
@@ -85,6 +108,19 @@ namespace WEB_API.Web.Controllers
             }
 
             return BadRequest(GetModelStateErrors(ModelState));
+        }
+
+        [HttpGet("GetFiltered")]
+        [AllowAnonymous]
+        public async Task<ActionResult> GetFiltered([FromQuery] FilterProductViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _productService.FilterBy(_mapper.Map<ProductFilter>(model));
+                return new JsonResult(result.ToList());
+            }
+
+            return BadRequest();
         }
         
     }
