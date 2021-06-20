@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WEB_API.DAL.ViewModels
+namespace WEB_API.Web.ViewModels
 {
     public class PasswordChangingViewModel
     {

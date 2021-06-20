@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-using Newtonsoft.Json;
 
-namespace WEB_API.DAL.ViewModels
+namespace WEB_API.Web.ViewModels
 {
     public class UserInfoViewModel
     {

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WEB_API.Business.Interfaces;
 using WEB_API.DAL.Models;
-using WEB_API.DAL.ViewModels;
+using WEB_API.Web.ViewModels;
 
 namespace WEB_API.Web.Controllers
 {

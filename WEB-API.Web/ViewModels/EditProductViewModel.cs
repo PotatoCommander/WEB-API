@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using WEB_API.DAL.Models.Enums;
 
-namespace WEB_API.DAL.ViewModels
+namespace WEB_API.Web.ViewModels
 {
     public class EditProductViewModel
     {

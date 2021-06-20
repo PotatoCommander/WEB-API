@@ -9,7 +9,6 @@ using WEB_API.Business.Interfaces;
 using WEB_API.DAL.Models;
 using WEB_API.DAL.Models.Filters;
 using WEB_API.DAL.Repositories;
-using WEB_API.DAL.ViewModels;
 using WEB_API.Web.Helpers;
 using WEB_API.Web.ViewModels;
 
