@@ -1,12 +1,12 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WEB_API.DAL.Models.Enums;
 
-namespace WEB_API.DAL.ViewModels
+namespace WEB_API.Web.ViewModels
 {
     public class AddProductViewModel
     {
+        //TODO: move to web
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
@@ -18,6 +18,7 @@ namespace WEB_API.DAL.ViewModels
         public decimal Price { get; set; }
         [EnumDataType(typeof(Categories), ErrorMessage = "Invalid category Enum value.")]
         public Categories Category { get; set; }
+        //TODO: Auto-generate date of adding
         public DateTime DateOfProduction { get; set; }
         public float Rating { get; set; }
     }

@@ -70,9 +70,8 @@ namespace WEB_API.Business.Services
                 case SortStates.RatingDesc:
                     query = query.OrderByDescending(x => x.Rating);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-                
+                //TODO: Remove from to price;
+                //TODO: Only ascending
             }
             
             query = query.Skip((filter.PageNumber - 1) * filter.PageSize)

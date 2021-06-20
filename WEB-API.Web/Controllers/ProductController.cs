@@ -11,6 +11,7 @@ using WEB_API.DAL.Models.Filters;
 using WEB_API.DAL.Repositories;
 using WEB_API.DAL.ViewModels;
 using WEB_API.Web.Helpers;
+using WEB_API.Web.ViewModels;
 
 namespace WEB_API.Web.Controllers
 {
@@ -34,8 +35,9 @@ namespace WEB_API.Web.Controllers
         {
             try
             {
+                //TODO: check for null or nothing remove try
                 var result = _repository.GetAll();
-                return new JsonResult(result);
+                return Ok(result);
             }
             catch (ArgumentNullException ex)
             {
@@ -53,7 +55,7 @@ namespace WEB_API.Web.Controllers
                 var result = await _repository.Add(_mapper.Map<Product>(model));
                 if (result != null)
                 {
-                    return new JsonResult(result);
+                    return Ok(result);
                 }
                 ModelState.AddModelError("","An error occured when updating database.");
                 return BadRequest(GetModelStateErrors(ModelState));
@@ -117,7 +119,7 @@ namespace WEB_API.Web.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _productService.FilterBy(_mapper.Map<ProductFilter>(model));
-                return new JsonResult(result.ToList());
+                return Ok(result.ToList());
             }
 
             return BadRequest();
