@@ -1,8 +1,6 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using WEB_API.Business.Interfaces;
 using WEB_API.DAL.Models;
 using WEB_API.DAL.Models.Enums;
@@ -100,7 +98,6 @@ namespace WEB_API.Business.Services
                 case SortStates.RatingDesc:
                     query = query.OrderByDescending(x => x.Rating);
                     break;
-                //TODO: Partial update
             }
 
             return query;

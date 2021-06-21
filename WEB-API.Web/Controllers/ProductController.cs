@@ -18,14 +18,12 @@ namespace WEB_API.Web.Controllers
     [Route("api/product")]
     public class ProductController : BaseController
     {
-        private IRepository _repository;
         private IMapper _mapper;
         private IDomainService _productService;
 
-        public ProductController(IRepository repository, IMapper mapper, IDomainService productService)
+        public ProductController(IMapper mapper, IDomainService productService)
         {
             _mapper = mapper;
-            _repository = repository;
             _productService = productService;
         }
 
@@ -33,7 +31,7 @@ namespace WEB_API.Web.Controllers
         [AllowAnonymous]
         public ActionResult GetAll()
         {
-            var result = _repository.GetAll();
+            var result = _productService.GetAllItems();
             if (result != null)
             {
                 return Ok(result);
@@ -48,7 +46,7 @@ namespace WEB_API.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _repository.Add(_mapper.Map<Product>(model));
+                var result = await _productService.AddItem(_mapper.Map<Product>(model));
                 if (result != null)
                 {
                     return Ok(result);
@@ -69,7 +67,7 @@ namespace WEB_API.Web.Controllers
             {
                 foreach (var item in model)
                 {
-                    await _repository.Add(_mapper.Map<Product>(item));
+                    await _productService.AddItem(_mapper.Map<Product>(item));
                 }
 
                 return Ok();
@@ -83,7 +81,7 @@ namespace WEB_API.Web.Controllers
         [Authorize(Roles = Roles.Admin)]
         public async Task<ActionResult> DeleteProduct(int id)
         {
-            var deleted = await _repository.Delete(id);
+            var deleted = await _productService.DeleteItem(id);
             if (deleted != null)
             {
                 return new JsonResult(deleted);
@@ -99,7 +97,8 @@ namespace WEB_API.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _repository.Update(_mapper.Map<Product>(model));
+                var itemToUpdate = await _productService.GetItemById(model.Id);
+                var result = await _productService.UpdateItem(_mapper.Map(model, itemToUpdate));
                 if (result != null)
                 {
                     return new JsonResult(result);

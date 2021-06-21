@@ -21,6 +21,7 @@ namespace WEB_API.DAL.Repositories
         
         public async Task<Product> Add(Product item)
         {
+            item.CreationTime = DateTime.UtcNow;
             var inserted = await _context.Products.AddAsync(item);
             await _context.SaveChangesAsync();
             return inserted.Entity;
@@ -38,7 +39,6 @@ namespace WEB_API.DAL.Repositories
 
         public async Task<Product> Update(Product item)
         {
-            item.CreationTime = DateTime.UtcNow;
             var product = _context.Products.Update(item);
             await _context.SaveChangesAsync();
             return product.Entity;
