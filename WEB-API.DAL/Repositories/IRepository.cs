@@ -12,6 +12,7 @@ namespace WEB_API.DAL.Repositories
         Task<Product> Update(Product item);
         Task<Product> Delete(int id);
         IQueryable<Product> GetAll();
-        
+        Task<Product> GetById(int id);
+
     }
 }
