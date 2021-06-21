@@ -10,10 +10,6 @@ namespace WEB_API.DAL.Models.Filters
         public Categories Category { get; set; }
         public AgeRatings AgeRating { get; set; }
         public string SearchString { get; set; }
-        
-        public int? PriceFrom { get; set; }
-        public int? PriceTo { get; set; }
-        
         public int? RatingFrom { get; set; }
         
         public int? YearFrom { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -37,6 +38,7 @@ namespace WEB_API.DAL.Repositories
 
         public async Task<Product> Update(Product item)
         {
+            item.CreationTime = DateTime.UtcNow;
             var product = _context.Products.Update(item);
             await _context.SaveChangesAsync();
             return product.Entity;

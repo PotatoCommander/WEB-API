@@ -11,7 +11,7 @@ namespace WEB_API.DAL.Models
         public AgeRatings AgeRating { get; set; }
         public decimal Price { get; set; }
         public Categories Category { get; set; }
-        public DateTime DateOfProduction { get; set; }
+        public DateTime CreationTime { get; set; }
         public float Rating { get; set; }
     }
 }

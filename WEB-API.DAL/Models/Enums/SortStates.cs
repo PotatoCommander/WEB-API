@@ -3,12 +3,14 @@
     public enum SortStates
     {
         None,
+        DateDesc,
+        DateAsc,
         NameAsc,
         NameDesc,
         PriceAsc,
         PriceDesc,
-        DateOfProductionAsc,
-        DateOfProductionDesc,
+        CreationDateAsc,
+        CreationDateDesc,
         RatingAsc,
         RatingDesc
     }

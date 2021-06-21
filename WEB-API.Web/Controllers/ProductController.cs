@@ -28,23 +28,20 @@ namespace WEB_API.Web.Controllers
             _repository = repository;
             _productService = productService;
         }
+
         [HttpGet("GetAll")]
         [AllowAnonymous]
         public ActionResult GetAll()
         {
-            try
+            var result = _repository.GetAll();
+            if (result != null)
             {
-                //TODO: check for null or nothing remove try
-                var result = _repository.GetAll();
                 return Ok(result);
             }
-            catch (ArgumentNullException ex)
-            {
-                ModelState.AddModelError("","Exception occured whe getting data from DB.");
-            }
-
+            
             return BadRequest(GetModelStateErrors(ModelState));
         }
+
         [HttpPost("AddProduct")]
         [Authorize(Roles = Roles.Admin)]
         public async Task<ActionResult> AddProduct(AddProductViewModel model)
@@ -56,12 +53,14 @@ namespace WEB_API.Web.Controllers
                 {
                     return Ok(result);
                 }
-                ModelState.AddModelError("","An error occured when updating database.");
+
+                ModelState.AddModelError("", "An error occured when updating database.");
                 return BadRequest(GetModelStateErrors(ModelState));
             }
 
             return BadRequest(GetModelStateErrors(ModelState));
         }
+
         //DEBUG------------------------------------------------------------------------
         [HttpPost("AddProducts")]
         public async Task<ActionResult> AddProducts(List<AddProductViewModel> model)
@@ -89,6 +88,7 @@ namespace WEB_API.Web.Controllers
             {
                 return new JsonResult(deleted);
             }
+
             ModelState.AddModelError("", "Requested item not found");
             return NotFound(GetModelStateErrors(ModelState));
         }
@@ -104,7 +104,8 @@ namespace WEB_API.Web.Controllers
                 {
                     return new JsonResult(result);
                 }
-                ModelState.AddModelError("","An error occured when updating database.");
+
+                ModelState.AddModelError("", "An error occured when updating database.");
                 return BadRequest(GetModelStateErrors(ModelState));
             }
 
@@ -123,6 +124,5 @@ namespace WEB_API.Web.Controllers
 
             return BadRequest();
         }
-        
     }
 }

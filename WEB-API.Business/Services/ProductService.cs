@@ -31,20 +31,22 @@ namespace WEB_API.Business.Services
                 query = query.Where(x => x.AgeRating == filter.AgeRating);
             if (!string.IsNullOrEmpty(filter.SearchString))
                 query = query.Where(x => x.Name.ToLower(CultureInfo.InvariantCulture).Contains(filter.SearchString));
-            if (filter.PriceFrom != null)
-                query = query.Where(x => x.Price > filter.PriceFrom);
-            if (filter.PriceTo != null)
-                query = query.Where(x => x.Price < filter.PriceTo);
             if (filter.RatingFrom != null)
                 query = query.Where(x => x.Rating > filter.RatingFrom);
             if (filter.YearFrom != null)
-                query = query.Where(x => x.DateOfProduction.Year > filter.YearFrom);
+                query = query.Where(x => x.CreationTime.Year > filter.YearFrom);
             if (filter.YearTo != null)
-                query = query.Where(x => x.DateOfProduction.Year < filter.YearTo);
+                query = query.Where(x => x.CreationTime.Year < filter.YearTo);
 
             switch (filter.SortBy)
             {
                 case SortStates.None:
+                    break;
+                case SortStates.DateAsc:
+                    query = query.OrderBy(x => x.CreationTime);
+                    break;
+                case SortStates.DateDesc:
+                    query = query.OrderByDescending(x => x.CreationTime);
                     break;
                 case SortStates.NameAsc:
                     query = query.OrderBy(x => x.Name);
@@ -58,11 +60,11 @@ namespace WEB_API.Business.Services
                 case SortStates.PriceDesc:
                     query = query.OrderByDescending(x => x.Price);
                     break;
-                case SortStates.DateOfProductionAsc:
-                    query = query.OrderBy(x => x.DateOfProduction);
+                case SortStates.CreationDateAsc:
+                    query = query.OrderBy(x => x.CreationTime);
                     break;
-                case SortStates.DateOfProductionDesc:
-                    query = query.OrderByDescending(x => x.DateOfProduction);
+                case SortStates.CreationDateDesc:
+                    query = query.OrderByDescending(x => x.CreationTime);
                     break;
                 case SortStates.RatingAsc:
                     query = query.OrderBy(x => x.Rating);
@@ -70,8 +72,7 @@ namespace WEB_API.Business.Services
                 case SortStates.RatingDesc:
                     query = query.OrderByDescending(x => x.Rating);
                     break;
-                //TODO: Remove from to price;
-                //TODO: Only ascending
+                //TODO: Partial update
             }
             
             query = query.Skip((filter.PageNumber - 1) * filter.PageSize)
