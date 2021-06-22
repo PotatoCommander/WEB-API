@@ -9,7 +9,7 @@ using WEB_API.DAL.Models;
 
 namespace WEB_API.DAL.Repositories
 {
-    public class ProductRepository: IRepository
+    public class ProductRepository: IRepository<Product>
     {
         private ApplicationDbContext _context;
 

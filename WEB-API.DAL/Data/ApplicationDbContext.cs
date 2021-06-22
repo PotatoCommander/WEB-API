@@ -12,6 +12,7 @@ namespace WEB_API.DAL.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Product> Products { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -20,6 +21,14 @@ namespace WEB_API.DAL.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<Product>()
+                .Property(e => e.Rating)
+                .HasComputedColumnSql("SELECT AVG (ProductRating)\nFROM Ratings\nWHERE ProductId = [Id]");
         }
     }
 }

@@ -12,9 +12,9 @@ namespace WEB_API.Business.Services
 {
     public class ProductService: IDomainService
     {
-        private IRepository _repository;
+        private IRepository<Product> _repository;
 
-        public ProductService(IRepository repository)
+        public ProductService(IRepository<Product> repository)
         {
             _repository = repository;
         }

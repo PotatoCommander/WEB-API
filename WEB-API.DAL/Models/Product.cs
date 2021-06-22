@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using WEB_API.DAL.Models.Enums;
 
 namespace WEB_API.DAL.Models
@@ -13,5 +14,6 @@ namespace WEB_API.DAL.Models
         public Categories Category { get; set; }
         public DateTime CreationTime { get; set; }
         public float Rating { get; set; }
+        public List<Rating> Ratings { get; set; }
     }
 }

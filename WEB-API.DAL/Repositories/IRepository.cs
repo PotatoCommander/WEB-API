@@ -6,13 +6,13 @@ using WEB_API.DAL.Models;
 
 namespace WEB_API.DAL.Repositories
 {
-    public interface IRepository
+    public interface IRepository<T> where T: class
     {
-        Task<Product> Add(Product item);
-        Task<Product> Update(Product item);
-        Task<Product> Delete(int id);
-        IQueryable<Product> GetAll();
-        Task<Product> GetById(int id);
+        Task<T> Add(T item);
+        Task<T> Update(T item);
+        Task<T> Delete(int id);
+        IQueryable<T> GetAll();
+        Task<T> GetById(int id);
 
     }
 }

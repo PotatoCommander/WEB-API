@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WEB_API.DAL.Data;
 
 namespace WEB_API.DAL.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210622183912_AfterReset")]
+    partial class AfterReset
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -254,31 +256,6 @@ namespace WEB_API.DAL.Data.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("WEB_API.DAL.Models.Rating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<float>("ProductRating")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Ratings");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -328,33 +305,6 @@ namespace WEB_API.DAL.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("WEB_API.DAL.Models.Rating", b =>
-                {
-                    b.HasOne("WEB_API.DAL.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("Ratings")
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("WEB_API.DAL.Models.Product", "Product")
-                        .WithMany("Ratings")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("WEB_API.DAL.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Ratings");
-                });
-
-            modelBuilder.Entity("WEB_API.DAL.Models.Product", b =>
-                {
-                    b.Navigation("Ratings");
                 });
 #pragma warning restore 612, 618
         }
