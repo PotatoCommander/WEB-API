@@ -28,7 +28,7 @@ namespace WEB_API.DAL.Data
             base.OnModelCreating(builder);
             builder.Entity<Product>()
                 .Property(e => e.Rating)
-                .HasComputedColumnSql("SELECT AVG (ProductRating)\nFROM Ratings\nWHERE ProductId = [Id]");
+                .HasComputedColumnSql("ApiAdmin.GetAverage([Id])");
         }
     }
 }

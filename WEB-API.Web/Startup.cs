@@ -43,6 +43,7 @@ namespace WEB_API.Web
             var emailOptions = Configuration.GetSection("EmailService").Get<EmailServiceOptions>();
             services.AddTransient<IEmailService>(s => new EmailService(emailOptions));
             services.AddTransient<IRepository<Product>, ProductRepository>();
+            services.AddTransient<IRepository<Rating>, RatingRepository>();
             services.AddTransient<IDomainService, ProductService>();
             services.AddAutoMapper(typeof(Startup));
         }

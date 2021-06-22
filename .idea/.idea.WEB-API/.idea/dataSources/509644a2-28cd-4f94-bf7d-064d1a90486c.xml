@@ -111,7 +111,7 @@
     </login>
     <schema id="19" parent="3" name="ApiAdmin">
       <ObjectId>5</ObjectId>
-      <IntrospectionTimestamp>2021-06-23.00:55:49.703</IntrospectionTimestamp>
+      <IntrospectionTimestamp>2021-06-23.04:15:58.680</IntrospectionTimestamp>
       <Current>1</Current>
     </schema>
     <schema id="20" parent="3" name="INFORMATION_SCHEMA">
@@ -238,310 +238,317 @@
       <AuthType>none</AuthType>
     </role>
     <table id="48" parent="19" name="AspNetRoleClaims">
-      <ObjectId>1045578763</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.387</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.453</ModifiedTimestamp>
+      <ObjectId>2037582297</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.693</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.930</ModifiedTimestamp>
     </table>
     <table id="49" parent="19" name="AspNetRoles">
-      <ObjectId>981578535</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.167</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.457</ModifiedTimestamp>
+      <ObjectId>1941581955</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.563</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.933</ModifiedTimestamp>
     </table>
     <table id="50" parent="19" name="AspNetUserClaims">
-      <ObjectId>1093578934</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.433</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.457</ModifiedTimestamp>
+      <ObjectId>2085582468</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.730</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.937</ModifiedTimestamp>
     </table>
     <table id="51" parent="19" name="AspNetUserLogins">
-      <ObjectId>1141579105</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.437</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-09.13:25:27.470</ModifiedTimestamp>
+      <ObjectId>2133582639</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.733</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.937</ModifiedTimestamp>
     </table>
     <table id="52" parent="19" name="AspNetUserRoles">
-      <ObjectId>1189579276</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.440</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.457</ModifiedTimestamp>
+      <ObjectId>34099162</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.773</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.940</ModifiedTimestamp>
     </table>
     <table id="53" parent="19" name="AspNetUserTokens">
-      <ObjectId>1253579504</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.447</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-09.13:25:27.407</ModifiedTimestamp>
+      <ObjectId>98099390</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.890</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.890</ModifiedTimestamp>
     </table>
     <table id="54" parent="19" name="AspNetUsers">
-      <ObjectId>1013578649</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.360</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-23.00:55:44.327</ModifiedTimestamp>
+      <ObjectId>1973582069</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.657</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.947</ModifiedTimestamp>
     </table>
     <table id="55" parent="19" name="Products">
-      <ObjectId>1525580473</ObjectId>
-      <CreatedTimestamp>2021-06-17.22:58:34.773</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-23.00:55:44.327</ModifiedTimestamp>
+      <ObjectId>2005582183</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.667</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:15:55.647</ModifiedTimestamp>
     </table>
     <table id="56" parent="19" name="Ratings">
-      <ObjectId>1669580986</ObjectId>
-      <CreatedTimestamp>2021-06-23.00:55:44.160</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-23.00:55:44.357</ModifiedTimestamp>
+      <ObjectId>146099561</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.897</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.950</ModifiedTimestamp>
     </table>
     <table id="57" parent="19" name="__EFMigrationsHistory">
-      <ObjectId>933578364</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:39:25.100</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:39:25.100</ModifiedTimestamp>
+      <ObjectId>1909581841</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.247</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.247</ModifiedTimestamp>
     </table>
-    <column id="58" parent="48" name="Id">
+    <routine id="58" parent="19" name="GetAverage">
+      <ObjectId>210099789</ObjectId>
+      <SourceTextLength>188</SourceTextLength>
+      <CreatedTimestamp>2021-06-23.04:15:54.763</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:15:54.763</ModifiedTimestamp>
+      <RoutineType>scalar-fun</RoutineType>
+    </routine>
+    <column id="59" parent="48" name="Id">
       <Position>1</Position>
       <SequenceIdentity>1</SequenceIdentity>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="59" parent="48" name="RoleId">
+    <column id="60" parent="48" name="RoleId">
       <Position>2</Position>
       <DataType>nvarchar(450 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="60" parent="48" name="ClaimType">
+    <column id="61" parent="48" name="ClaimType">
       <Position>3</Position>
       <DataType>nvarchar(max)|0s</DataType>
     </column>
-    <column id="61" parent="48" name="ClaimValue">
+    <column id="62" parent="48" name="ClaimValue">
       <Position>4</Position>
       <DataType>nvarchar(max)|0s</DataType>
     </column>
-    <index id="62" parent="48" name="PK_AspNetRoleClaims">
+    <index id="63" parent="48" name="PK_AspNetRoleClaims">
       <Position>1</Position>
       <ColNames>Id</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <index id="63" parent="48" name="IX_AspNetRoleClaims_RoleId">
+    <index id="64" parent="48" name="IX_AspNetRoleClaims_RoleId">
       <Position>2</Position>
       <ColNames>RoleId</ColNames>
     </index>
-    <key id="64" parent="48" name="PK_AspNetRoleClaims">
-      <ObjectId>1061578820</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.387</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.387</ModifiedTimestamp>
+    <key id="65" parent="48" name="PK_AspNetRoleClaims">
+      <ObjectId>2053582354</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.697</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.697</ModifiedTimestamp>
       <ColNames>Id</ColNames>
       <UnderlyingIndexName>PK_AspNetRoleClaims</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="65" parent="48" name="FK_AspNetRoleClaims_AspNetRoles_RoleId">
-      <ObjectId>1077578877</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.400</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.400</ModifiedTimestamp>
+    <foreign-key id="66" parent="48" name="FK_AspNetRoleClaims_AspNetRoles_RoleId">
+      <ObjectId>2069582411</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.720</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.720</ModifiedTimestamp>
       <ColNames>RoleId</ColNames>
-      <RefTableId>981578535</RefTableId>
+      <RefTableId>1941581955</RefTableId>
       <RefTableName>AspNetRoles</RefTableName>
       <RefKeyName>PK_AspNetRoles</RefKeyName>
       <RefColNames>Id</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="66" parent="49" name="Id">
+    <column id="67" parent="49" name="Id">
       <Position>1</Position>
       <DataType>nvarchar(450 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="67" parent="49" name="Name">
+    <column id="68" parent="49" name="Name">
       <Position>2</Position>
       <DataType>nvarchar(256 char)|0s</DataType>
     </column>
-    <column id="68" parent="49" name="NormalizedName">
+    <column id="69" parent="49" name="NormalizedName">
       <Position>3</Position>
       <DataType>nvarchar(256 char)|0s</DataType>
     </column>
-    <column id="69" parent="49" name="ConcurrencyStamp">
+    <column id="70" parent="49" name="ConcurrencyStamp">
       <Position>4</Position>
       <DataType>nvarchar(max)|0s</DataType>
     </column>
-    <index id="70" parent="49" name="PK_AspNetRoles">
+    <index id="71" parent="49" name="PK_AspNetRoles">
       <Position>1</Position>
       <ColNames>Id</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <index id="71" parent="49" name="RoleNameIndex">
+    <index id="72" parent="49" name="RoleNameIndex">
       <Position>2</Position>
       <ColNames>NormalizedName</ColNames>
       <Unique>1</Unique>
       <Condition>[NormalizedName] IS NOT NULL</Condition>
     </index>
-    <key id="72" parent="49" name="PK_AspNetRoles">
-      <ObjectId>997578592</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.347</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.347</ModifiedTimestamp>
+    <key id="73" parent="49" name="PK_AspNetRoles">
+      <ObjectId>1957582012</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.653</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.653</ModifiedTimestamp>
       <ColNames>Id</ColNames>
       <UnderlyingIndexName>PK_AspNetRoles</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="73" parent="50" name="Id">
+    <column id="74" parent="50" name="Id">
       <Position>1</Position>
       <SequenceIdentity>1</SequenceIdentity>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="74" parent="50" name="UserId">
+    <column id="75" parent="50" name="UserId">
       <Position>2</Position>
       <DataType>nvarchar(450 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="75" parent="50" name="ClaimType">
+    <column id="76" parent="50" name="ClaimType">
       <Position>3</Position>
       <DataType>nvarchar(max)|0s</DataType>
     </column>
-    <column id="76" parent="50" name="ClaimValue">
+    <column id="77" parent="50" name="ClaimValue">
       <Position>4</Position>
       <DataType>nvarchar(max)|0s</DataType>
     </column>
-    <index id="77" parent="50" name="PK_AspNetUserClaims">
+    <index id="78" parent="50" name="PK_AspNetUserClaims">
       <Position>1</Position>
       <ColNames>Id</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <index id="78" parent="50" name="IX_AspNetUserClaims_UserId">
+    <index id="79" parent="50" name="IX_AspNetUserClaims_UserId">
       <Position>2</Position>
       <ColNames>UserId</ColNames>
     </index>
-    <key id="79" parent="50" name="PK_AspNetUserClaims">
-      <ObjectId>1109578991</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.433</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.433</ModifiedTimestamp>
+    <key id="80" parent="50" name="PK_AspNetUserClaims">
+      <ObjectId>2101582525</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.730</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.730</ModifiedTimestamp>
       <ColNames>Id</ColNames>
       <UnderlyingIndexName>PK_AspNetUserClaims</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="80" parent="50" name="FK_AspNetUserClaims_AspNetUsers_UserId">
-      <ObjectId>1125579048</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.437</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.437</ModifiedTimestamp>
+    <foreign-key id="81" parent="50" name="FK_AspNetUserClaims_AspNetUsers_UserId">
+      <ObjectId>2117582582</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.730</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.730</ModifiedTimestamp>
       <ColNames>UserId</ColNames>
-      <RefTableId>1013578649</RefTableId>
+      <RefTableId>1973582069</RefTableId>
       <RefTableName>AspNetUsers</RefTableName>
       <RefKeyName>PK_AspNetUsers</RefKeyName>
       <RefColNames>Id</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="81" parent="51" name="LoginProvider">
+    <column id="82" parent="51" name="LoginProvider">
       <Position>1</Position>
       <DataType>nvarchar(450 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="82" parent="51" name="ProviderKey">
+    <column id="83" parent="51" name="ProviderKey">
       <Position>2</Position>
       <DataType>nvarchar(450 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="83" parent="51" name="ProviderDisplayName">
+    <column id="84" parent="51" name="ProviderDisplayName">
       <Position>3</Position>
       <DataType>nvarchar(max)|0s</DataType>
     </column>
-    <column id="84" parent="51" name="UserId">
+    <column id="85" parent="51" name="UserId">
       <Position>4</Position>
       <DataType>nvarchar(450 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="85" parent="51" name="PK_AspNetUserLogins">
+    <index id="86" parent="51" name="PK_AspNetUserLogins">
       <Position>1</Position>
       <ColNames>LoginProvider
 ProviderKey</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <index id="86" parent="51" name="IX_AspNetUserLogins_UserId">
+    <index id="87" parent="51" name="IX_AspNetUserLogins_UserId">
       <Position>2</Position>
       <ColNames>UserId</ColNames>
     </index>
-    <key id="87" parent="51" name="PK_AspNetUserLogins">
-      <ObjectId>1157579162</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.437</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.437</ModifiedTimestamp>
+    <key id="88" parent="51" name="PK_AspNetUserLogins">
+      <ObjectId>2099048</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.757</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.757</ModifiedTimestamp>
       <ColNames>LoginProvider
 ProviderKey</ColNames>
       <UnderlyingIndexName>PK_AspNetUserLogins</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="88" parent="51" name="FK_AspNetUserLogins_AspNetUsers_UserId">
-      <ObjectId>1173579219</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.437</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.437</ModifiedTimestamp>
+    <foreign-key id="89" parent="51" name="FK_AspNetUserLogins_AspNetUsers_UserId">
+      <ObjectId>18099105</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.757</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.757</ModifiedTimestamp>
       <ColNames>UserId</ColNames>
-      <RefTableId>1013578649</RefTableId>
+      <RefTableId>1973582069</RefTableId>
       <RefTableName>AspNetUsers</RefTableName>
       <RefKeyName>PK_AspNetUsers</RefKeyName>
       <RefColNames>Id</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="89" parent="52" name="UserId">
+    <column id="90" parent="52" name="UserId">
       <Position>1</Position>
       <DataType>nvarchar(450 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="90" parent="52" name="RoleId">
+    <column id="91" parent="52" name="RoleId">
       <Position>2</Position>
       <DataType>nvarchar(450 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="91" parent="52" name="PK_AspNetUserRoles">
+    <index id="92" parent="52" name="PK_AspNetUserRoles">
       <Position>1</Position>
       <ColNames>UserId
 RoleId</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <index id="92" parent="52" name="IX_AspNetUserRoles_RoleId">
+    <index id="93" parent="52" name="IX_AspNetUserRoles_RoleId">
       <Position>2</Position>
       <ColNames>RoleId</ColNames>
     </index>
-    <key id="93" parent="52" name="PK_AspNetUserRoles">
-      <ObjectId>1205579333</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.443</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.443</ModifiedTimestamp>
+    <key id="94" parent="52" name="PK_AspNetUserRoles">
+      <ObjectId>50099219</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.860</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.860</ModifiedTimestamp>
       <ColNames>UserId
 RoleId</ColNames>
       <UnderlyingIndexName>PK_AspNetUserRoles</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="94" parent="52" name="FK_AspNetUserRoles_AspNetUsers_UserId">
-      <ObjectId>1237579447</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.443</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.443</ModifiedTimestamp>
+    <foreign-key id="95" parent="52" name="FK_AspNetUserRoles_AspNetUsers_UserId">
+      <ObjectId>82099333</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.863</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.863</ModifiedTimestamp>
       <ColNames>UserId</ColNames>
-      <RefTableId>1013578649</RefTableId>
+      <RefTableId>1973582069</RefTableId>
       <RefTableName>AspNetUsers</RefTableName>
       <RefKeyName>PK_AspNetUsers</RefKeyName>
       <RefColNames>Id</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="95" parent="52" name="FK_AspNetUserRoles_AspNetRoles_RoleId">
-      <ObjectId>1221579390</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.443</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.443</ModifiedTimestamp>
+    <foreign-key id="96" parent="52" name="FK_AspNetUserRoles_AspNetRoles_RoleId">
+      <ObjectId>66099276</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.860</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.860</ModifiedTimestamp>
       <ColNames>RoleId</ColNames>
-      <RefTableId>981578535</RefTableId>
+      <RefTableId>1941581955</RefTableId>
       <RefTableName>AspNetRoles</RefTableName>
       <RefKeyName>PK_AspNetRoles</RefKeyName>
       <RefColNames>Id</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="96" parent="53" name="UserId">
+    <column id="97" parent="53" name="UserId">
       <Position>1</Position>
       <DataType>nvarchar(450 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="97" parent="53" name="LoginProvider">
+    <column id="98" parent="53" name="LoginProvider">
       <Position>2</Position>
       <DataType>nvarchar(450 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="98" parent="53" name="Name">
+    <column id="99" parent="53" name="Name">
       <Position>3</Position>
       <DataType>nvarchar(450 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="99" parent="53" name="Value">
+    <column id="100" parent="53" name="Value">
       <Position>4</Position>
       <DataType>nvarchar(max)|0s</DataType>
     </column>
-    <index id="100" parent="53" name="PK_AspNetUserTokens">
+    <index id="101" parent="53" name="PK_AspNetUserTokens">
       <Position>1</Position>
       <ColNames>UserId
 LoginProvider
@@ -549,265 +556,274 @@ Name</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <key id="101" parent="53" name="PK_AspNetUserTokens">
-      <ObjectId>1269579561</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.447</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.447</ModifiedTimestamp>
+    <key id="102" parent="53" name="PK_AspNetUserTokens">
+      <ObjectId>114099447</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.893</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.893</ModifiedTimestamp>
       <ColNames>UserId
 LoginProvider
 Name</ColNames>
       <UnderlyingIndexName>PK_AspNetUserTokens</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="102" parent="53" name="FK_AspNetUserTokens_AspNetUsers_UserId">
-      <ObjectId>1285579618</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.447</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.447</ModifiedTimestamp>
+    <foreign-key id="103" parent="53" name="FK_AspNetUserTokens_AspNetUsers_UserId">
+      <ObjectId>130099504</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.893</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.893</ModifiedTimestamp>
       <ColNames>UserId</ColNames>
-      <RefTableId>1013578649</RefTableId>
+      <RefTableId>1973582069</RefTableId>
       <RefTableName>AspNetUsers</RefTableName>
       <RefKeyName>PK_AspNetUsers</RefKeyName>
       <RefColNames>Id</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="103" parent="54" name="Id">
+    <column id="104" parent="54" name="Id">
       <Position>1</Position>
       <DataType>nvarchar(450 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="104" parent="54" name="UserName">
+    <column id="105" parent="54" name="NewEmail">
       <Position>2</Position>
-      <DataType>nvarchar(256 char)|0s</DataType>
+      <DataType>nvarchar(max)|0s</DataType>
     </column>
-    <column id="105" parent="54" name="NormalizedUserName">
+    <column id="106" parent="54" name="Address">
       <Position>3</Position>
-      <DataType>nvarchar(256 char)|0s</DataType>
+      <DataType>nvarchar(max)|0s</DataType>
     </column>
-    <column id="106" parent="54" name="Email">
+    <column id="107" parent="54" name="UserName">
       <Position>4</Position>
       <DataType>nvarchar(256 char)|0s</DataType>
     </column>
-    <column id="107" parent="54" name="NormalizedEmail">
+    <column id="108" parent="54" name="NormalizedUserName">
       <Position>5</Position>
       <DataType>nvarchar(256 char)|0s</DataType>
     </column>
-    <column id="108" parent="54" name="EmailConfirmed">
+    <column id="109" parent="54" name="Email">
       <Position>6</Position>
+      <DataType>nvarchar(256 char)|0s</DataType>
+    </column>
+    <column id="110" parent="54" name="NormalizedEmail">
+      <Position>7</Position>
+      <DataType>nvarchar(256 char)|0s</DataType>
+    </column>
+    <column id="111" parent="54" name="EmailConfirmed">
+      <Position>8</Position>
       <DataType>bit|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="109" parent="54" name="PasswordHash">
-      <Position>7</Position>
-      <DataType>nvarchar(max)|0s</DataType>
-    </column>
-    <column id="110" parent="54" name="SecurityStamp">
-      <Position>8</Position>
-      <DataType>nvarchar(max)|0s</DataType>
-    </column>
-    <column id="111" parent="54" name="ConcurrencyStamp">
+    <column id="112" parent="54" name="PasswordHash">
       <Position>9</Position>
       <DataType>nvarchar(max)|0s</DataType>
     </column>
-    <column id="112" parent="54" name="PhoneNumber">
+    <column id="113" parent="54" name="SecurityStamp">
       <Position>10</Position>
       <DataType>nvarchar(max)|0s</DataType>
     </column>
-    <column id="113" parent="54" name="PhoneNumberConfirmed">
+    <column id="114" parent="54" name="ConcurrencyStamp">
       <Position>11</Position>
-      <DataType>bit|0s</DataType>
-      <NotNull>1</NotNull>
+      <DataType>nvarchar(max)|0s</DataType>
     </column>
-    <column id="114" parent="54" name="TwoFactorEnabled">
+    <column id="115" parent="54" name="PhoneNumber">
       <Position>12</Position>
+      <DataType>nvarchar(max)|0s</DataType>
+    </column>
+    <column id="116" parent="54" name="PhoneNumberConfirmed">
+      <Position>13</Position>
       <DataType>bit|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="115" parent="54" name="LockoutEnd">
-      <Position>13</Position>
-      <DataType>datetimeoffset|0s</DataType>
-    </column>
-    <column id="116" parent="54" name="LockoutEnabled">
+    <column id="117" parent="54" name="TwoFactorEnabled">
       <Position>14</Position>
       <DataType>bit|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="117" parent="54" name="AccessFailedCount">
+    <column id="118" parent="54" name="LockoutEnd">
       <Position>15</Position>
+      <DataType>datetimeoffset|0s</DataType>
+    </column>
+    <column id="119" parent="54" name="LockoutEnabled">
+      <Position>16</Position>
+      <DataType>bit|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="120" parent="54" name="AccessFailedCount">
+      <Position>17</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="118" parent="54" name="Address">
-      <Position>16</Position>
-      <DataType>nvarchar(max)|0s</DataType>
-    </column>
-    <column id="119" parent="54" name="NewEmail">
-      <Position>17</Position>
-      <DataType>nvarchar(max)|0s</DataType>
-    </column>
-    <index id="120" parent="54" name="PK_AspNetUsers">
+    <index id="121" parent="54" name="PK_AspNetUsers">
       <Position>1</Position>
       <ColNames>Id</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <index id="121" parent="54" name="EmailIndex">
+    <index id="122" parent="54" name="EmailIndex">
       <Position>2</Position>
       <ColNames>NormalizedEmail</ColNames>
     </index>
-    <index id="122" parent="54" name="UserNameIndex">
+    <index id="123" parent="54" name="UserNameIndex">
       <Position>3</Position>
       <ColNames>NormalizedUserName</ColNames>
       <Unique>1</Unique>
       <Condition>[NormalizedUserName] IS NOT NULL</Condition>
     </index>
-    <key id="123" parent="54" name="PK_AspNetUsers">
-      <ObjectId>1029578706</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:57:26.360</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:57:26.360</ModifiedTimestamp>
+    <key id="124" parent="54" name="PK_AspNetUsers">
+      <ObjectId>1989582126</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.660</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.660</ModifiedTimestamp>
       <ColNames>Id</ColNames>
       <UnderlyingIndexName>PK_AspNetUsers</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="124" parent="55" name="Id">
+    <column id="125" parent="55" name="Id">
       <Position>1</Position>
       <SequenceIdentity>1</SequenceIdentity>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="125" parent="55" name="Name">
+    <column id="126" parent="55" name="Name">
       <Position>2</Position>
       <DataType>nvarchar(max)|0s</DataType>
     </column>
-    <column id="126" parent="55" name="Genre">
+    <column id="127" parent="55" name="Genre">
       <Position>3</Position>
       <DataType>tinyint|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="127" parent="55" name="AgeRating">
+    <column id="128" parent="55" name="AgeRating">
       <Position>4</Position>
       <DataType>tinyint|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="128" parent="55" name="Price">
+    <column id="129" parent="55" name="Price">
       <Position>5</Position>
       <DataType>decimal(18,2)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="129" parent="55" name="Category">
+    <column id="130" parent="55" name="Category">
       <Position>6</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="130" parent="55" name="CreationTime">
+    <column id="131" parent="55" name="CreationTime">
       <Position>7</Position>
       <DataType>datetime2|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="131" parent="55" name="Rating">
-      <Position>8</Position>
+    <column id="132" parent="55" name="Rating">
+      <Position>9</Position>
+      <Computed>1</Computed>
+      <DefaultExpression>[ApiAdmin].[GetAverage]([Id])</DefaultExpression>
       <DataType>real|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
-    <index id="132" parent="55" name="PK_Products">
+    <index id="133" parent="55" name="PK_Products">
       <Position>1</Position>
       <ColNames>Id</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <key id="133" parent="55" name="PK_Products">
-      <ObjectId>1541580530</ObjectId>
-      <CreatedTimestamp>2021-06-17.22:58:34.910</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-17.22:58:34.910</ModifiedTimestamp>
+    <key id="134" parent="55" name="PK_Products">
+      <ObjectId>2021582240</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.690</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.690</ModifiedTimestamp>
       <ColNames>Id</ColNames>
       <UnderlyingIndexName>PK_Products</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="134" parent="56" name="Id">
+    <column id="135" parent="56" name="Id">
       <Position>1</Position>
       <SequenceIdentity>1</SequenceIdentity>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="135" parent="56" name="ApplicationUserId">
+    <column id="136" parent="56" name="ApplicationUserId">
       <Position>2</Position>
       <DataType>nvarchar(450 char)|0s</DataType>
     </column>
-    <column id="136" parent="56" name="ProductId">
+    <column id="137" parent="56" name="ProductId">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="137" parent="56" name="ProductRating">
+    <column id="138" parent="56" name="ProductRating">
       <Position>4</Position>
       <DataType>real|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="138" parent="56" name="PK_Ratings">
+    <index id="139" parent="56" name="PK_Ratings">
       <Position>1</Position>
       <ColNames>Id</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <index id="139" parent="56" name="IX_Ratings_ApplicationUserId">
+    <index id="140" parent="56" name="IX_Ratings_ApplicationUserId">
       <Position>2</Position>
       <ColNames>ApplicationUserId</ColNames>
     </index>
-    <index id="140" parent="56" name="IX_Ratings_ProductId">
+    <index id="141" parent="56" name="IX_Ratings_ProductId">
       <Position>3</Position>
       <ColNames>ProductId</ColNames>
     </index>
-    <key id="141" parent="56" name="PK_Ratings">
-      <ObjectId>1685581043</ObjectId>
-      <CreatedTimestamp>2021-06-23.00:55:44.313</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-23.00:55:44.313</ModifiedTimestamp>
+    <key id="142" parent="56" name="PK_Ratings">
+      <ObjectId>162099618</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.923</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.923</ModifiedTimestamp>
       <ColNames>Id</ColNames>
       <UnderlyingIndexName>PK_Ratings</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="142" parent="56" name="FK_Ratings_AspNetUsers_ApplicationUserId">
-      <ObjectId>1701581100</ObjectId>
-      <CreatedTimestamp>2021-06-23.00:55:44.323</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-23.00:55:44.323</ModifiedTimestamp>
+    <foreign-key id="143" parent="56" name="FK_Ratings_AspNetUsers_ApplicationUserId">
+      <ObjectId>178099675</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.923</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.923</ModifiedTimestamp>
       <ColNames>ApplicationUserId</ColNames>
-      <RefTableId>1013578649</RefTableId>
+      <RefTableId>1973582069</RefTableId>
       <RefTableName>AspNetUsers</RefTableName>
       <RefKeyName>PK_AspNetUsers</RefKeyName>
       <RefColNames>Id</RefColNames>
     </foreign-key>
-    <foreign-key id="143" parent="56" name="FK_Ratings_Products_ProductId">
-      <ObjectId>1717581157</ObjectId>
-      <CreatedTimestamp>2021-06-23.00:55:44.327</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-23.00:55:44.327</ModifiedTimestamp>
+    <foreign-key id="144" parent="56" name="FK_Ratings_Products_ProductId">
+      <ObjectId>194099732</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.927</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.927</ModifiedTimestamp>
       <ColNames>ProductId</ColNames>
-      <RefTableId>1525580473</RefTableId>
+      <RefTableId>2005582183</RefTableId>
       <RefTableName>Products</RefTableName>
       <RefKeyName>PK_Products</RefKeyName>
       <RefColNames>Id</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="144" parent="57" name="MigrationId">
+    <column id="145" parent="57" name="MigrationId">
       <Position>1</Position>
       <DataType>nvarchar(150 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="145" parent="57" name="ProductVersion">
+    <column id="146" parent="57" name="ProductVersion">
       <Position>2</Position>
       <DataType>nvarchar(32 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="146" parent="57" name="PK___EFMigrationsHistory">
+    <index id="147" parent="57" name="PK___EFMigrationsHistory">
       <Position>1</Position>
       <ColNames>MigrationId</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <key id="147" parent="57" name="PK___EFMigrationsHistory">
-      <ObjectId>949578421</ObjectId>
-      <CreatedTimestamp>2021-06-06.02:39:25.227</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-06.02:39:25.227</ModifiedTimestamp>
+    <key id="148" parent="57" name="PK___EFMigrationsHistory">
+      <ObjectId>1925581898</ObjectId>
+      <CreatedTimestamp>2021-06-23.04:09:44.457</CreatedTimestamp>
+      <ModifiedTimestamp>2021-06-23.04:09:44.457</ModifiedTimestamp>
       <ColNames>MigrationId</ColNames>
       <UnderlyingIndexName>PK___EFMigrationsHistory</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
+    <argument id="149" parent="58">
+      <ArgumentDirection>R</ArgumentDirection>
+      <DataType>real|0s</DataType>
+    </argument>
+    <argument id="150" parent="58" name="@Id">
+      <Position>1</Position>
+      <DataType>int|0s</DataType>
+    </argument>
   </database-model>
 </dataSource>
