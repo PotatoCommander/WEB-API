@@ -9,7 +9,7 @@ using WEB_API.DAL.Models;
 
 namespace WEB_API.DAL.Repositories
 {
-    public class ProductRepository: IRepository<Product>
+    public class ProductRepository: IProductRepository
     {
         private ApplicationDbContext _context;
 
@@ -54,6 +54,7 @@ namespace WEB_API.DAL.Repositories
             }
             
             return product;
+            //TODO: Move rating to product
         }
 
         

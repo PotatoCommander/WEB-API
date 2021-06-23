@@ -7,13 +7,13 @@ using WEB_API.DAL.Models.Filters;
 
 namespace WEB_API.Business.Interfaces
 {
-    public interface IDomainService
+    public interface IProductService
     {
         Task<Product> AddItem(Product item);
         Task<Product> UpdateItem(Product item);
         Task<Product> DeleteItem(int id);
         Task<Product> GetItemById(int id);
-        IQueryable<Product> GetAllItems();
+        Task<List<Product>> GetAllItems();
         Task<IQueryable<Product>> FilterBy(ProductFilter filter);
     }
 }

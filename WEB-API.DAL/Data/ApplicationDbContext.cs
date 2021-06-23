@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -26,9 +27,12 @@ namespace WEB_API.DAL.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<Rating>()
+                .HasKey(o => new { o.ProductId, o.ApplicationUserId });
             builder.Entity<Product>()
                 .Property(e => e.Rating)
                 .HasComputedColumnSql("ApiAdmin.GetAverage([Id])");
+            //TODO: Procedure creation 
         }
     }
 }

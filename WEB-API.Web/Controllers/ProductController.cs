@@ -19,9 +19,9 @@ namespace WEB_API.Web.Controllers
     public class ProductController : BaseController
     {
         private IMapper _mapper;
-        private IDomainService _productService;
+        private IProductService _productService;
 
-        public ProductController(IMapper mapper, IDomainService productService)
+        public ProductController(IMapper mapper, IProductService productService)
         {
             _mapper = mapper;
             _productService = productService;

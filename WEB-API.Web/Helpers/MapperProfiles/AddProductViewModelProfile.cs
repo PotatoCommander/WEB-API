@@ -8,6 +8,7 @@ namespace WEB_API.Web.Helpers.MapperProfiles
     {
         public AddProductViewModelProfile()
         {
+            //TODO: move simple profiles to one file
             CreateMap<AddProductViewModel, Product>();
         }
     }

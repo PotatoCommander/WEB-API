@@ -1,6 +1,8 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using WEB_API.Business.Interfaces;
 using WEB_API.DAL.Models;
 using WEB_API.DAL.Models.Enums;
@@ -10,38 +12,40 @@ using WEB_API.DAL.Repositories;
 
 namespace WEB_API.Business.Services
 {
-    public class ProductService: IDomainService
+    public class ProductService: IProductService
     {
-        private IRepository<Product> _repository;
+        private IProductRepository _productRepository;
 
-        public ProductService(IRepository<Product> repository)
+        public ProductService(IProductRepository productRepository)
         {
-            _repository = repository;
+            _productRepository = productRepository;
         }
 
         public async Task<Product> AddItem(Product item)
         {
-            return await _repository.Add(item);
+            return await _productRepository.Add(item);
         }
 
         public async Task<Product> UpdateItem(Product item)
         {
-            return await _repository.Update(item);
+            return await _productRepository.Update(item);
         }
 
         public async Task<Product> DeleteItem(int id)
         {
-            return await _repository.Delete(id);
+            return await _productRepository.Delete(id);
         }
 
         public async Task<Product> GetItemById(int id)
         {
-            return await _repository.GetById(id);
+            return await _productRepository.GetById(id);
         }
 
-        public IQueryable<Product> GetAllItems()
+        public async Task<List<Product>> GetAllItems()
         {
-            return _repository.GetAll();
+            //TODO: return view models
+            //TODO: return lists
+            return await _productRepository.GetAll().ToListAsync();
         }
 
         public async Task<IQueryable<Product>> FilterBy(ProductFilter filter)
@@ -105,7 +109,7 @@ namespace WEB_API.Business.Services
 
         private IQueryable<Product> FilterProducts(ProductFilter filter)
         {
-            var query = _repository.GetAll();
+            var query = _productRepository.GetAll();
             if (filter.Category != Categories.None)
                 query = query.Where(x => x.Category == filter.Category);
             if (filter.Genre != Genres.None)

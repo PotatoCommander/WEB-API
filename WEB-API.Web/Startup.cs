@@ -21,8 +21,7 @@ namespace WEB_API.Web
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().ConfigureApiBehaviorOptions(options =>
@@ -42,13 +41,12 @@ namespace WEB_API.Web
             
             var emailOptions = Configuration.GetSection("EmailService").Get<EmailServiceOptions>();
             services.AddTransient<IEmailService>(s => new EmailService(emailOptions));
-            services.AddTransient<IRepository<Product>, ProductRepository>();
-            services.AddTransient<IRepository<Rating>, RatingRepository>();
-            services.AddTransient<IDomainService, ProductService>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IRatingRepository, RatingRepository>();
+            services.AddTransient<IProductService, ProductService>();
             services.AddAutoMapper(typeof(Startup));
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHttpsRedirection();

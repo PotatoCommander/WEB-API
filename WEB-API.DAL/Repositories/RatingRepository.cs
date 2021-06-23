@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WEB_API.DAL.Data;
@@ -6,7 +7,7 @@ using WEB_API.DAL.Models;
 
 namespace WEB_API.DAL.Repositories
 {
-    public class RatingRepository: IRepository<Rating>
+    public class RatingRepository: IRatingRepository
     {
         private ApplicationDbContext _context;
 
@@ -14,31 +15,38 @@ namespace WEB_API.DAL.Repositories
         {
             _context = context;
         }
+        //TODO; Fix naming
         public async Task<Rating> Add(Rating item)
         {
-            var inserted = await _context.Ratings.AddAsync(item);
-            await _context.SaveChangesAsync();
+            var inserted =  await _context.Ratings.AddAsync(item);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
             return inserted.Entity;
         }
 
         public async Task<Rating> Update(Rating item)
         {
-            throw new System.NotImplementedException();
+            var rating = _context.Ratings.Update(item);
+            await _context.SaveChangesAsync();
+            return rating.Entity;
         }
 
-        public async Task<Rating> Delete(int id)
+        public bool IsExists(int productId, string userId)
         {
-            throw new System.NotImplementedException();
+            return _context.Ratings.AsNoTracking().Any(x => x.ProductId == productId 
+                                                            && string.Equals(x.ApplicationUserId, userId));
         }
-
         public IQueryable<Rating> GetAll()
         {
             return _context.Ratings.AsNoTracking().AsQueryable();
-        }
-
-        public async Task<Rating> GetById(int id)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
