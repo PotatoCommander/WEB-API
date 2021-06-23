@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WEB_API.Business.Helpers;
 using WEB_API.Business.Interfaces;
 using WEB_API.Business.Services;
 using WEB_API.Business.Settings;
 using WEB_API.DAL.Data;
 using WEB_API.DAL.Models;
 using WEB_API.DAL.Repositories;
+using WEB_API.Web.Helpers.MapperProfiles;
 
 namespace WEB_API.Web
 {
@@ -42,9 +44,8 @@ namespace WEB_API.Web
             var emailOptions = Configuration.GetSection("EmailService").Get<EmailServiceOptions>();
             services.AddTransient<IEmailService>(s => new EmailService(emailOptions));
             services.AddTransient<IProductRepository, ProductRepository>();
-            services.AddTransient<IRatingRepository, RatingRepository>();
             services.AddTransient<IProductService, ProductService>();
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(MapperProfileBusinessToDAL), typeof(MapperProfileWeb));
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
