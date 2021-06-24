@@ -2,7 +2,9 @@
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using WEB_API.Business.BusinessModels;
 using WEB_API.Business.Interfaces;
 using WEB_API.DAL.Models;
 using WEB_API.DAL.Models.Enums;
@@ -14,49 +16,66 @@ namespace WEB_API.Business.Services
 {
     public class ProductService: IProductService
     {
-        private IProductRepository _productRepository;
+        private IProductRepository _repository;
+        private IMapper _mapper;
 
-        public ProductService(IProductRepository productRepository)
+        public ProductService(IProductRepository repository, IMapper mapper)
         {
-            _productRepository = productRepository;
+            _mapper = mapper;
+            _repository = repository;
         }
 
-        public async Task<Product> AddItem(Product item)
+        public async Task<ProductModel> AddProduct(ProductModel item)
         {
-            return await _productRepository.Add(item);
+            var result = await _repository.AddProduct(_mapper.Map<Product>(item));
+            return _mapper.Map<ProductModel>(result);
         }
 
-        public async Task<Product> UpdateItem(Product item)
+        public async Task<ProductModel> UpdateProduct(ProductModel item)
         {
-            return await _productRepository.Update(item);
+            var result = await _repository.UpdateProduct(_mapper.Map<Product>(item));
+            return _mapper.Map<ProductModel>(result);
         }
 
-        public async Task<Product> DeleteItem(int id)
+        public async Task<ProductModel> DeleteProduct(int id)
         {
-            return await _productRepository.Delete(id);
+            var result = await _repository.DeleteProduct(id);
+            return _mapper.Map<ProductModel>(result);
         }
 
-        public async Task<Product> GetItemById(int id)
+        public async Task<ProductModel> GetProductById(int id)
         {
-            return await _productRepository.GetById(id);
+            var result = await _repository.GetProductById(id);
+            return _mapper.Map<ProductModel>(result);
         }
 
-        public async Task<List<Product>> GetAllItems()
+        public async Task<RatingModel> SetProductRating(RatingModel rating)
         {
-            //TODO: return view models
-            //TODO: return lists
-            return await _productRepository.GetAll().ToListAsync();
+            Rating result;
+            if (_repository.IsRatingExists(rating.ProductId, rating.ApplicationUserId))
+            {
+                result =  await _repository.UpdateRating(_mapper.Map<Rating>(rating));
+                return _mapper.Map<RatingModel>(result);
+            }
+
+            result = await _repository.AddRating(_mapper.Map<Rating>(rating));
+            return _mapper.Map<RatingModel>(result);
         }
 
-        public async Task<IQueryable<Product>> FilterBy(ProductFilter filter)
+        public async Task<List<ProductModel>> GetAllProducts()
         {
+            var result = await _repository.GetAllProducts().ToListAsync();
+            return _mapper.Map<List<ProductModel>>(result);
+        }
+
+        public async Task<List<ProductModel>> FilterProductsBy(ProductFilterModel filterModel)
+        {
+            var filter = _mapper.Map<ProductFilter>(filterModel);
             var query = FilterProducts(filter);
-
             query = SortProducts(filter, query);
-            
             query = PaginationProduct(filter, query);
-
-            return query;
+            var result = _mapper.Map<List<ProductModel>>(await query.ToListAsync());
+            return result;
         }
 
         private IQueryable<Product> PaginationProduct(ProductFilter filter, IQueryable<Product> query)
@@ -109,7 +128,7 @@ namespace WEB_API.Business.Services
 
         private IQueryable<Product> FilterProducts(ProductFilter filter)
         {
-            var query = _productRepository.GetAll();
+            var query = _repository.GetAllProducts();
             if (filter.Category != Categories.None)
                 query = query.Where(x => x.Category == filter.Category);
             if (filter.Genre != Genres.None)

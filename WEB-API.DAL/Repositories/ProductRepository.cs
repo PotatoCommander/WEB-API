@@ -19,7 +19,7 @@ namespace WEB_API.DAL.Repositories
         }
 
         
-        public async Task<Product> Add(Product item)
+        public async Task<Product> AddProduct(Product item)
         {
             item.CreationTime = DateTime.UtcNow;
             var inserted = await _context.Products.AddAsync(item);
@@ -27,24 +27,24 @@ namespace WEB_API.DAL.Repositories
             return inserted.Entity;
         }
         
-        public IQueryable<Product> GetAll()
+        public IQueryable<Product> GetAllProducts()
         {
             return _context.Products.AsNoTracking().AsQueryable();
         }
 
-        public async Task<Product> GetById(int id)
+        public async Task<Product> GetProductById(int id)
         {
             return await _context.Products.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Product> Update(Product item)
+        public async Task<Product> UpdateProduct(Product item)
         {
             var product = _context.Products.Update(item);
             await _context.SaveChangesAsync();
             return product.Entity;
         }
 
-        public async Task<Product> Delete(int id)
+        public async Task<Product> DeleteProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);
             if (product != null)
@@ -55,6 +55,25 @@ namespace WEB_API.DAL.Repositories
             
             return product;
             //TODO: Move rating to product
+        }
+        public async Task<Rating> AddRating(Rating item)
+        {
+            var inserted =  await _context.Ratings.AddAsync(item);
+            await _context.SaveChangesAsync();
+            return inserted.Entity;
+        }
+
+        public async Task<Rating> UpdateRating(Rating item)
+        {
+            var rating = _context.Ratings.Update(item);
+            await _context.SaveChangesAsync();
+            return rating.Entity;
+        }
+
+        public bool IsRatingExists(int productId, string userId)
+        {
+            return _context.Ratings.AsNoTracking().Any(x => x.ProductId == productId 
+                                                            && string.Equals(x.ApplicationUserId, userId));
         }
 
         

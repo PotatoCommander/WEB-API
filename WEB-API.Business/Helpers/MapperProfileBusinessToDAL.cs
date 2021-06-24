@@ -11,6 +11,7 @@ namespace WEB_API.Business.Helpers
         {
             CreateMap<ProductModel, Product>().ReverseMap();
             CreateMap<ProductFilter, ProductFilterModel>().ReverseMap();
+            CreateMap<RatingModel, Rating>().ReverseMap();
         }
     }
 }

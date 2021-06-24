@@ -1,9 +1,10 @@
-﻿namespace WEB_API.DAL.Models
+﻿using WEB_API.DAL.Models;
+
+namespace WEB_API.Business.BusinessModels
 {
-    public class Rating
+    public class RatingModel
     {
         public string ApplicationUserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }
         public float ProductRating { get; set; }

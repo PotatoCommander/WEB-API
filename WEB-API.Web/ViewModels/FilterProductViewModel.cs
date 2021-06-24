@@ -1,4 +1,5 @@
-﻿using WEB_API.DAL.Models.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using WEB_API.DAL.Models.Enums;
 
 namespace WEB_API.Web.ViewModels
 {
@@ -9,9 +10,7 @@ namespace WEB_API.Web.ViewModels
         public Categories Category { get; set; } = Categories.None;
         public AgeRatings AgeRating { get; set; } = AgeRatings.None;
         public string SearchString { get; set; } = null;
-        
         public float? RatingFrom { get; set; } = null;
-
         public int? YearFrom { get; set; } = null;
         public int? YearTo { get; set; } = null;
         

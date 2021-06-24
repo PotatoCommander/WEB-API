@@ -32,7 +32,6 @@ namespace WEB_API.DAL.Data
             builder.Entity<Product>()
                 .Property(e => e.Rating)
                 .HasComputedColumnSql("ApiAdmin.GetAverage([Id])");
-            //TODO: Procedure creation 
         }
     }
 }

@@ -17,6 +17,7 @@ namespace WEB_API.Web.Helpers.MapperProfiles
             CreateMap<FilterProductViewModel, ProductFilterModel>().ReverseMap();
             //CreateMap<AddRatingViewModel, Rating>();
             CreateMap<ApplicationUser, UserInfoViewModel>().ReverseMap();
+            CreateMap<AddRatingViewModel, RatingModel>().ReverseMap();
             CreateMap<UserLoginViewModel, ApplicationUser>()
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));

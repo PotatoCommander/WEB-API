@@ -8,11 +8,14 @@ namespace WEB_API.DAL.Repositories
 {
     public interface IProductRepository
     {
-        Task<Product> Add(Product item);
-        Task<Product> Update(Product item);
-        Task<Product> Delete(int id);
-        IQueryable<Product> GetAll();
-        Task<Product> GetById(int id);
+        Task<Product> AddProduct(Product item);
+        Task<Product> UpdateProduct(Product item);
+        Task<Product> DeleteProduct(int id);
+        IQueryable<Product> GetAllProducts();
+        Task<Product> GetProductById(int id);
+        Task<Rating> AddRating(Rating item);
+        Task<Rating> UpdateRating(Rating item);
+        bool IsRatingExists(int productId, string userId);
 
     }
 }
