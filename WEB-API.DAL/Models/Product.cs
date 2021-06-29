@@ -14,7 +14,8 @@ namespace WEB_API.DAL.Models
         public Categories Category { get; set; }
         public DateTime CreationTime { get; set; }
         public float Rating { get; set; }
-        //TODo: icollection 
-        public List<Rating> Ratings { get; set; }
+        public uint Balance { get; set; }
+        
+        public ICollection<Rating> Ratings { get; set; }
     }
 }

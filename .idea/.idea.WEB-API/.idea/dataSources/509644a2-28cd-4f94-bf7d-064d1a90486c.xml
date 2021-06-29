@@ -111,7 +111,7 @@
     </login>
     <schema id="19" parent="3" name="ApiAdmin">
       <ObjectId>5</ObjectId>
-      <IntrospectionTimestamp>2021-06-23.18:19:25.327</IntrospectionTimestamp>
+      <IntrospectionTimestamp>2021-06-29.22:58:00.667</IntrospectionTimestamp>
       <Current>1</Current>
     </schema>
     <schema id="20" parent="3" name="INFORMATION_SCHEMA">
@@ -275,7 +275,7 @@
     <table id="55" parent="19" name="Products">
       <ObjectId>2005582183</ObjectId>
       <CreatedTimestamp>2021-06-23.04:09:44.667</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-23.04:15:55.647</ModifiedTimestamp>
+      <ModifiedTimestamp>2021-06-29.22:56:42.810</ModifiedTimestamp>
     </table>
     <table id="56" parent="19" name="Ratings">
       <ObjectId>146099561</ObjectId>
@@ -716,13 +716,20 @@ Name</ColNames>
       <DefaultExpression>[ApiAdmin].[GetAverage]([Id])</DefaultExpression>
       <DataType>real|0s</DataType>
     </column>
-    <index id="133" parent="55" name="PK_Products">
+    <column id="133" parent="55" name="Balance">
+      <Position>12</Position>
+      <DefaultConstraintName>DF__Products__Balanc__114A936A</DefaultConstraintName>
+      <DefaultExpression>CONVERT([bigint],0)</DefaultExpression>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="134" parent="55" name="PK_Products">
       <Position>1</Position>
       <ColNames>Id</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <key id="134" parent="55" name="PK_Products">
+    <key id="135" parent="55" name="PK_Products">
       <ObjectId>2021582240</ObjectId>
       <CreatedTimestamp>2021-06-23.04:09:44.690</CreatedTimestamp>
       <ModifiedTimestamp>2021-06-23.04:09:44.690</ModifiedTimestamp>
@@ -730,35 +737,42 @@ Name</ColNames>
       <UnderlyingIndexName>PK_Products</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="135" parent="56" name="ApplicationUserId">
+    <default id="136" parent="55" name="DF__Products__Balanc__114A936A">
+      <ObjectId>290100074</ObjectId>
+      <NameSurrogate>1</NameSurrogate>
+      <ModifiedTimestamp>2021-06-29.22:56:42.857</ModifiedTimestamp>
+      <ColNames>Balance</ColNames>
+      <DefaultExpression>CONVERT([bigint],0)</DefaultExpression>
+    </default>
+    <column id="137" parent="56" name="ApplicationUserId">
       <Position>2</Position>
       <DefaultConstraintName>DF__Ratings__Applica__0E6E26BF</DefaultConstraintName>
       <DefaultExpression>N&apos;&apos;</DefaultExpression>
       <DataType>nvarchar(450 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="136" parent="56" name="ProductId">
+    <column id="138" parent="56" name="ProductId">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="137" parent="56" name="ProductRating">
+    <column id="139" parent="56" name="ProductRating">
       <Position>4</Position>
       <DataType>real|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="138" parent="56" name="PK_Ratings">
+    <index id="140" parent="56" name="PK_Ratings">
       <Position>1</Position>
       <ColNames>ProductId
 ApplicationUserId</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <index id="139" parent="56" name="IX_Ratings_ApplicationUserId">
+    <index id="141" parent="56" name="IX_Ratings_ApplicationUserId">
       <Position>2</Position>
       <ColNames>ApplicationUserId</ColNames>
     </index>
-    <key id="140" parent="56" name="PK_Ratings">
+    <key id="142" parent="56" name="PK_Ratings">
       <ObjectId>258099960</ObjectId>
       <CreatedTimestamp>2021-06-23.18:18:36.820</CreatedTimestamp>
       <ModifiedTimestamp>2021-06-23.18:18:36.820</ModifiedTimestamp>
@@ -767,7 +781,7 @@ ApplicationUserId</ColNames>
       <UnderlyingIndexName>PK_Ratings</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="141" parent="56" name="FK_Ratings_AspNetUsers_ApplicationUserId">
+    <foreign-key id="143" parent="56" name="FK_Ratings_AspNetUsers_ApplicationUserId">
       <ObjectId>274100017</ObjectId>
       <CreatedTimestamp>2021-06-23.18:18:36.823</CreatedTimestamp>
       <ModifiedTimestamp>2021-06-23.18:18:36.823</ModifiedTimestamp>
@@ -778,7 +792,7 @@ ApplicationUserId</ColNames>
       <RefColNames>Id</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="142" parent="56" name="FK_Ratings_Products_ProductId">
+    <foreign-key id="144" parent="56" name="FK_Ratings_Products_ProductId">
       <ObjectId>194099732</ObjectId>
       <CreatedTimestamp>2021-06-23.04:09:44.927</CreatedTimestamp>
       <ModifiedTimestamp>2021-06-23.04:09:44.927</ModifiedTimestamp>
@@ -789,30 +803,30 @@ ApplicationUserId</ColNames>
       <RefColNames>Id</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <default id="143" parent="56" name="DF__Ratings__Applica__0E6E26BF">
+    <default id="145" parent="56" name="DF__Ratings__Applica__0E6E26BF">
       <ObjectId>242099903</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <ModifiedTimestamp>2021-06-23.18:18:36.817</ModifiedTimestamp>
       <ColNames>ApplicationUserId</ColNames>
       <DefaultExpression>N&apos;&apos;</DefaultExpression>
     </default>
-    <column id="144" parent="57" name="MigrationId">
+    <column id="146" parent="57" name="MigrationId">
       <Position>1</Position>
       <DataType>nvarchar(150 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="145" parent="57" name="ProductVersion">
+    <column id="147" parent="57" name="ProductVersion">
       <Position>2</Position>
       <DataType>nvarchar(32 char)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="146" parent="57" name="PK___EFMigrationsHistory">
+    <index id="148" parent="57" name="PK___EFMigrationsHistory">
       <Position>1</Position>
       <ColNames>MigrationId</ColNames>
       <Clustering>1</Clustering>
       <Unique>1</Unique>
     </index>
-    <key id="147" parent="57" name="PK___EFMigrationsHistory">
+    <key id="149" parent="57" name="PK___EFMigrationsHistory">
       <ObjectId>1925581898</ObjectId>
       <CreatedTimestamp>2021-06-23.04:09:44.457</CreatedTimestamp>
       <ModifiedTimestamp>2021-06-23.04:09:44.457</ModifiedTimestamp>
@@ -820,11 +834,11 @@ ApplicationUserId</ColNames>
       <UnderlyingIndexName>PK___EFMigrationsHistory</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <argument id="148" parent="58">
+    <argument id="150" parent="58">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>real|0s</DataType>
     </argument>
-    <argument id="149" parent="58" name="@Id">
+    <argument id="151" parent="58" name="@Id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
     </argument>
