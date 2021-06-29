@@ -17,5 +17,6 @@ namespace WEB_API.DAL.Models
         public uint Balance { get; set; }
         
         public ICollection<Rating> Ratings { get; set; }
+        public ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

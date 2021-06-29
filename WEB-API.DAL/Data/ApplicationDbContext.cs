@@ -14,6 +14,8 @@ namespace WEB_API.DAL.Data
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Rating> Ratings { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -29,6 +31,7 @@ namespace WEB_API.DAL.Data
             base.OnModelCreating(builder);
             builder.Entity<Rating>()
                 .HasKey(o => new { o.ProductId, o.ApplicationUserId });
+            builder.Entity<OrderDetail>().HasKey(o=> new {o.OrderId, o.ProductId});
             builder.Entity<Product>()
                 .Property(e => e.Rating)
                 .HasComputedColumnSql("ApiAdmin.GetAverage([Id])");

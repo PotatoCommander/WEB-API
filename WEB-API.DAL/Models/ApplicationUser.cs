@@ -9,5 +9,6 @@ namespace WEB_API.DAL.Models
         public string NewEmail { get; set; }
         public string Address { get; set; }
         public List<Rating> Ratings { get; set; }
+        public Order Order { get; set; }
     }
 }
