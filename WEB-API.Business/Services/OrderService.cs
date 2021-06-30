@@ -51,5 +51,15 @@ namespace WEB_API.Business.Services
             var order = await _orderRepository.UpdateOrderStatus(orderId, status);
             return _mapper.Map<OrderModel>(order);
         }
+
+        public bool IsUserHaveOpenedOrder(string userId)
+        {
+            return _orderRepository.IsOrderExists(userId);
+        }
+
+        public bool IsOrderExists(int id)
+        {
+            return _orderRepository.IsOrderExists(id);
+        }
     }
 }

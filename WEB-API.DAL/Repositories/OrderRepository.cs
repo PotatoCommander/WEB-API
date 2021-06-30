@@ -62,5 +62,11 @@ namespace WEB_API.DAL.Repositories
         {
             return _context.Orders.AsNoTracking().Any(x => x.Id == id && x.OrderStatus == OrderStatuses.IN_PROGRESS);
         }
+
+        public bool IsOrderExists(string id)
+        {
+            return _context.Orders.AsNoTracking()
+                .Any(x => x.ApplicationUserId == id && x.OrderStatus == OrderStatuses.IN_PROGRESS);
+        }
     }
 }
