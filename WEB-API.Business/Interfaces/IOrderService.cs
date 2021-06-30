@@ -11,5 +11,7 @@ namespace WEB_API.Business.Interfaces
         Task<OrderModel> RemoveDetailFromOrder(OrderDetailModel orderDetail);
         Task<OrderModel> GetOrderById(int id);
         Task<OrderModel> SetOrderStatus(int orderId,OrderStatuses status);
+        bool IsUserHaveOpenedOrder(string userId);
+        bool IsOrderExists(int id);
     }
 }
