@@ -7,5 +7,6 @@ namespace WEB_API.Business.BusinessModels
         public int Id { get; set; }
         public string ApplicationUserId { get; set; }
         public OrderStatuses OrderStatus { get; set; }
+        public decimal TotalSum { get; set; }
     }
 }
