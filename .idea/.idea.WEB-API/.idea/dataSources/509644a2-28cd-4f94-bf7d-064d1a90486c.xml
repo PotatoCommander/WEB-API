@@ -111,7 +111,7 @@
     </login>
     <schema id="19" parent="3" name="ApiAdmin">
       <ObjectId>5</ObjectId>
-      <IntrospectionTimestamp>2021-06-30.18:23:50.687</IntrospectionTimestamp>
+      <IntrospectionTimestamp>2021-06-30.21:59:44.913</IntrospectionTimestamp>
       <Current>1</Current>
     </schema>
     <schema id="20" parent="3" name="INFORMATION_SCHEMA">
@@ -280,7 +280,7 @@
     <table id="56" parent="19" name="Orders">
       <ObjectId>546100986</ObjectId>
       <CreatedTimestamp>2021-06-30.18:23:17.827</CreatedTimestamp>
-      <ModifiedTimestamp>2021-06-30.18:23:17.840</ModifiedTimestamp>
+      <ModifiedTimestamp>2021-06-30.21:59:38.203</ModifiedTimestamp>
     </table>
     <table id="57" parent="19" name="Products">
       <ObjectId>2005582183</ObjectId>
@@ -767,7 +767,7 @@ ProductId</ColNames>
       <Position>2</Position>
       <ColNames>ApplicationUserId</ColNames>
       <Unique>1</Unique>
-      <Condition>[ApplicationUserId] IS NOT NULL</Condition>
+      <Condition>[OrderStatus]=0 AND [ApplicationUserId] IS NOT NULL</Condition>
     </index>
     <key id="140" parent="56" name="PK_Orders">
       <ObjectId>562101043</ObjectId>

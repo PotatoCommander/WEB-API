@@ -12,5 +12,6 @@ namespace WEB_API.DAL.Repositories
         Task<OrderDetail> DeleteDetailFromOrder(OrderDetail detail);
         Task<Order> UpdateOrderStatus(int orderId, OrderStatuses orderStatus);
         bool IsOrderExists(int itd);
+        public bool IsOrderExists(string id);
     }
 }
