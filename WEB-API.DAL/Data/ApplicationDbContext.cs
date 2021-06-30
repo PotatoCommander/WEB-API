@@ -29,6 +29,7 @@ namespace WEB_API.DAL.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<Order>().HasIndex(o => o.ApplicationUserId).IsUnique();
             builder.Entity<Rating>()
                 .HasKey(o => new { o.ProductId, o.ApplicationUserId });
             builder.Entity<OrderDetail>().HasKey(o=> new {o.OrderId, o.ProductId});

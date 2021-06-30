@@ -223,21 +223,30 @@ namespace WEB_API.DAL.Migrations
 
             modelBuilder.Entity("WEB_API.DAL.Models.Order", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("OrderStatus")
                         .HasColumnType("int");
 
-                    b.HasKey("ApplicationUserId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId")
+                        .IsUnique()
+                        .HasFilter("[ApplicationUserId] IS NOT NULL");
 
                     b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("WEB_API.DAL.Models.OrderDetail", b =>
                 {
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -262,11 +271,11 @@ namespace WEB_API.DAL.Migrations
                     b.Property<byte>("AgeRating")
                         .HasColumnType("tinyint");
 
-                    b.Property<long>("Balance")
-                        .HasColumnType("bigint");
-
                     b.Property<int>("Category")
                         .HasColumnType("int");
+
+                    b.Property<long>("Count")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -363,9 +372,7 @@ namespace WEB_API.DAL.Migrations
                 {
                     b.HasOne("WEB_API.DAL.Models.ApplicationUser", "ApplicationUser")
                         .WithOne("Order")
-                        .HasForeignKey("WEB_API.DAL.Models.Order", "ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WEB_API.DAL.Models.Order", "ApplicationUserId");
 
                     b.Navigation("ApplicationUser");
                 });
