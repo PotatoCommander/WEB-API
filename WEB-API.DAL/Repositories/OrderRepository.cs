@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WEB_API.DAL.Data;
 using WEB_API.DAL.Models;
+using WEB_API.DAL.Models.Enums;
 
 namespace WEB_API.DAL.Repositories
 {
@@ -43,6 +45,22 @@ namespace WEB_API.DAL.Repositories
             }
 
             return orderDetail;
+        }
+
+        public async Task<Order> UpdateOrderStatus(int orderId, OrderStatuses orderStatus)
+        {
+            var order = await _context.Orders.FindAsync(orderId);
+            if (order != null)
+            {
+                order.OrderStatus = orderStatus;
+            }
+
+            return order;
+        }
+
+        public bool IsOrderExists(int id)
+        {
+            return _context.Orders.AsNoTracking().Any(x => x.Id == id && x.OrderStatus == OrderStatuses.IN_PROGRESS);
         }
     }
 }
