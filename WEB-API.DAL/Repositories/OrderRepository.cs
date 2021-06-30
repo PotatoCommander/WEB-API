@@ -28,6 +28,11 @@ namespace WEB_API.DAL.Repositories
             return await _context.Orders.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<Order> GetOrderByUserId(string userId)
+        {
+            return await _context.Orders.AsNoTracking().FirstOrDefaultAsync(x => x.ApplicationUserId == userId);
+        }
+
         public async Task<OrderDetail> AddDetailToOrder(OrderDetail detail)
         {
             var result = await _context.OrderDetails.AddAsync(detail);

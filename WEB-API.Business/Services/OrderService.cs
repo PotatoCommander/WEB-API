@@ -46,20 +46,16 @@ namespace WEB_API.Business.Services
             return _mapper.Map<OrderModel>(order);
         }
 
+        public async Task<OrderModel> GetOrderByUserId(string userId)
+        {
+            var order = await _orderRepository.GetOrderByUserId(userId);
+            return _mapper.Map<OrderModel>(order);
+        }
+
         public async Task<OrderModel> SetOrderStatus(int orderId,OrderStatuses status)
         {
             var order = await _orderRepository.UpdateOrderStatus(orderId, status);
             return _mapper.Map<OrderModel>(order);
-        }
-
-        public bool IsUserHaveOpenedOrder(string userId)
-        {
-            return _orderRepository.IsOrderExists(userId);
-        }
-
-        public bool IsOrderExists(int id)
-        {
-            return _orderRepository.IsOrderExists(id);
         }
     }
 }
