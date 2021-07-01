@@ -32,10 +32,10 @@ namespace WEB_API.Business.Services
             return _mapper.Map<OrderModel>(order);
         }
 
-        public async Task<OrderModel> RemoveDetailFromOrder(OrderDetailModel orderDetail)
+        public async Task<OrderModel> RemoveDetailFromOrder(int orderId, int productId)
         {
-            await _orderRepository.DeleteDetailFromOrder(_mapper.Map<OrderDetail>(orderDetail));
-            var order = await _orderRepository.GetOrderById(orderDetail.OrderId);
+            await _orderRepository.DeleteDetailFromOrder(orderId, productId);
+            var order = await _orderRepository.GetOrderById(orderId);
             return _mapper.Map<OrderModel>(order);
         }
 
