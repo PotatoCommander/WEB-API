@@ -9,8 +9,8 @@ namespace WEB_API.DAL.Repositories
         Task<Order> AddOrder(Order order);
         Task<Order> GetOrderById(int id);
         Task<Order> GetOrderByUserId(string userId);
-        Task<OrderDetail> AddDetailToOrder(OrderDetail detail);
-        Task<OrderDetail> DeleteDetailFromOrder(OrderDetail detail);
+        Task<Order> AddDetailToOrder(OrderDetail detail);
+        Task<Order> DeleteDetailFromOrder(OrderDetail detail);
         Task<Order> UpdateOrderStatus(int orderId, OrderStatuses orderStatus);
     }
 }
