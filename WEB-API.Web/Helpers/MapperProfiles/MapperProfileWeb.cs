@@ -18,10 +18,11 @@ namespace WEB_API.Web.Helpers.MapperProfiles
             //CreateMap<AddRatingViewModel, Rating>();
             CreateMap<ApplicationUser, UserInfoViewModel>().ReverseMap();
             CreateMap<AddRatingViewModel, RatingModel>().ReverseMap();
-            CreateMap<OrderDetailViewModel, OrderDetail>().ReverseMap();
+            CreateMap<OrderDetailViewModel, OrderDetailModel>().ReverseMap();
             CreateMap<UserLoginViewModel, ApplicationUser>()
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
+            CreateMap<OrderModel, OrderViewModel>().ReverseMap();
         }
     }
 }
