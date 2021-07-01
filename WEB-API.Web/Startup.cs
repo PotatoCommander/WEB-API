@@ -45,6 +45,8 @@ namespace WEB_API.Web
             services.AddTransient<IEmailService>(s => new EmailService(emailOptions));
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddAutoMapper(typeof(MapperProfileBusinessToDAL), typeof(MapperProfileWeb));
         }
         
