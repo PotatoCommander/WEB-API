@@ -62,12 +62,12 @@ namespace WEB_API.DAL.Repositories
             return await GetOrderById(result.Entity.OrderId);
         }
 
-        public async Task<Order> DeleteDetailFromOrder(OrderDetail detail)
+        public async Task<Order> DeleteDetailFromOrder(int orderId, int productId)
         {
-            var orderDetail = await _context.OrderDetails.FindAsync(detail);
+            var orderDetail = await _context.OrderDetails.FindAsync(orderId, productId);
             if (orderDetail != null)
             {
-                _context.OrderDetails.Remove(detail);
+                _context.OrderDetails.Remove(new OrderDetail(){OrderId = orderId, ProductId = productId});
                 await _context.SaveChangesAsync();
                 return await GetOrderById(orderDetail.OrderId);
             }
