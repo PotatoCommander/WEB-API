@@ -274,6 +274,7 @@
     </table>
     <table id="55" parent="19" name="OrderDetails">
       <ObjectId>594101157</ObjectId>
+      <Outdated>1</Outdated>
       <CreatedTimestamp>2021-06-30.18:23:17.830</CreatedTimestamp>
       <ModifiedTimestamp>2021-06-30.18:23:17.837</ModifiedTimestamp>
     </table>
