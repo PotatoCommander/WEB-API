@@ -2,8 +2,7 @@
 {
     public enum OrderStatuses
     {
-        IN_PROGRESS,
-        FINISHED,
-        DISCARDED
+        OPENED,
+        CLOSED
     }
 }
