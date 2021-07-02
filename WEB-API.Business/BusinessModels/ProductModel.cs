@@ -13,5 +13,6 @@ namespace WEB_API.Business.BusinessModels
         public Categories Category { get; set; }
         public DateTime CreationTime { get; set; }
         public float Rating { get; set; }
+        public uint Count { get; set; }
     }
 }
