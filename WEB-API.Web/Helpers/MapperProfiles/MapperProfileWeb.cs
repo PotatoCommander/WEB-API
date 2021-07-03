@@ -23,6 +23,7 @@ namespace WEB_API.Web.Helpers.MapperProfiles
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
             CreateMap<OrderModel, OrderViewModel>().ReverseMap();
+            CreateMap<OrderModel, OutOrderViewModel>().ReverseMap();
         }
     }
 }

@@ -140,8 +140,14 @@ namespace WEB_API.DAL.Repositories
             {
                 await _context.OrderDetails.Where(x => x.OrderId == order.Id).LoadAsync();
             }
-
+            
             return order;
+        }
+
+        public async Task<decimal> CalculateTotalPrice(int orderId)
+        {
+            return await _context.OrderDetails.Where(x => x.OrderId == orderId)
+                .SumAsync(x => x.Product.Price * x.Quantity);
         }
 
         public async Task<bool> IsOrderExists(int orderId)
@@ -149,9 +155,7 @@ namespace WEB_API.DAL.Repositories
             var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == orderId && x.OrderStatus == 0);
             return order != null;
         }
-
-        //TODO: check product
-        //TODO: Create new in DAL
+        
         //TODO: Add date to model
         //TODO: Calculate price in DAL
     }

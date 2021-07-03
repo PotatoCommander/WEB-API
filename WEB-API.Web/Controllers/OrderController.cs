@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WEB_API.Business.BusinessModels;
 using WEB_API.Business.Interfaces;
-using WEB_API.DAL.Models.Enums;
-using WEB_API.Web.Helpers;
 using WEB_API.Web.ViewModels;
 
 namespace WEB_API.Web.Controllers
@@ -26,19 +24,39 @@ namespace WEB_API.Web.Controllers
         }
 
         [HttpPost("addDetail")]
-        [Authorize(Roles = Roles.User)]
+        [AllowAnonymous]
         public async Task<ActionResult> AddToOrder(OrderDetailViewModel orderDetailViewModel)
         {
             if (ModelState.IsValid)
             {
                 var orderDetail = _mapper.Map<OrderDetailModel>(orderDetailViewModel);
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var result = await _orderService.AddDetailToOrder(orderDetail, userId);
-                if (result != null)
+                OrderModel result;
+                if (User.Identity != null && User.Identity.IsAuthenticated)
                 {
-                    return Ok(_mapper.Map<OrderViewModel>(result));
+                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    result = await _orderService.AddDetailToOrder(orderDetail, userId);
+                    
+                }
+                else
+                {
+                    var orderId = Request.Cookies.ContainsKey("OrderId") ? Request.Cookies["OrderId"] : null;
+                    if (orderId != null)
+                    {
+                        orderDetail.OrderId = Convert.ToInt32(orderId);
+                    }
+
+                    result = await _orderService.AddDetailToOrder(orderDetail);
+                    if (result != null)
+                    {
+                        Response.Cookies.Append("OrderId", result.Id.ToString());
+                    }
                 }
 
+                if (result != null)
+                {
+                    return Ok(_mapper.Map<OutOrderViewModel>(result));
+                }
+                
                 ModelState.AddModelError("", "Error occurred while adding detail.");
                 return BadRequest(GetModelStateErrors(ModelState));
             }

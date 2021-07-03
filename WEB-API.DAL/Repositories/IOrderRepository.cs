@@ -11,6 +11,7 @@ namespace WEB_API.DAL.Repositories
         Task<Order> DeleteOrderDetail(OrderDetail orderDetail);
         Task<Order> GetOrderById(int id);
         Task<Order> GetOrderByUserId(string userId);
+        Task<decimal> CalculateTotalPrice(int orderId);
         Task<bool> IsOrderExists(int orderId);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using WEB_API.Business.BusinessModels;
@@ -36,14 +35,16 @@ namespace WEB_API.Business.Services
             }
             else
             {
-                order = await _orderRepository.GetOrderById(orderDetail.OrderId);
+                order = orderDetail.OrderId != null
+                    ? await _orderRepository.GetOrderById((int) orderDetail.OrderId)
+                    : null;
             }
             
             if (order != null)
             {
                 orderDetail.OrderId = order.Id;
                 var result = await _orderRepository.AddOrderDetail(_mapper.Map<OrderDetail>(orderDetail));
-                return result != null ? _mapper.Map<OrderModel>(result) : null;
+                return result != null ? await AddTotalPriceToOrder(result) : null;
             }
 
             var newOrder = new OrderModel() {OrderStatus = OrderStatuses.OPENED, ApplicationUserId = userId};
@@ -53,10 +54,17 @@ namespace WEB_API.Business.Services
             {
                 orderDetail.OrderId = createdOrder.Id;
                 var result = await _orderRepository.AddOrderDetail(_mapper.Map<OrderDetail>(orderDetail));
-                return result != null ? _mapper.Map<OrderModel>(result) : null;
+                return result != null ? await AddTotalPriceToOrder(result) : null;
             }
 
             return null;
+        }
+
+        private async Task<OrderModel> AddTotalPriceToOrder(Order result)
+        {
+            var outResult = _mapper.Map<OrderModel>(result);
+            outResult.TotalSum = await _orderRepository.CalculateTotalPrice(outResult.Id);
+            return outResult;
         }
 
         public async Task<OrderModel> RemoveDetailFromOrder(int orderId, int productId)
