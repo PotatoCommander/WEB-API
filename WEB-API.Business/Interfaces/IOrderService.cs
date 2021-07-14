@@ -9,7 +9,7 @@ namespace WEB_API.Business.Interfaces
         Task<OrderModel> CreateOrder(OrderModel order);
         Task<OrderModel> AddDetailToOrder(OrderDetailModel orderDetail, string userId = null);
         Task<OrderModel> RemoveDetailFromOrder(int orderId, int productId);
-        Task<OrderModel> GetOrderById(int id);
+        Task<OrderModel> RemoveDetailFromOrder(string userId, int productId);
         Task<OrderModel> SetOrderStatus(int orderId,OrderStatuses status);
     }
 }

@@ -104,9 +104,28 @@ namespace WEB_API.DAL.Repositories
             return null;
         }
 
-        public async Task<Order> DeleteOrderDetail(OrderDetail orderDetail)
+        public async Task<Order> DeleteOrderDetail(int productId, int orderId)
         {
-            throw new NotImplementedException();
+            var order = await GetOrderById(orderId);
+            if (order != null)
+            {
+                var item = order.OrderDetails.FirstOrDefault(x => x.ProductId == productId);
+                if (item != null)
+                {
+                    var isRemoved = order.OrderDetails.Remove(item);
+                    if (isRemoved)
+                    {
+                        await _context.SaveChangesAsync();
+                        return order;
+                    }
+
+                    return null;
+                }
+
+                return null;
+            }
+            
+            return null;
         }
 
         public async Task<Order> DeleteOrder(int orderId)

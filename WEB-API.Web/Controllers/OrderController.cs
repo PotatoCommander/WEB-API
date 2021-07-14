@@ -62,5 +62,36 @@ namespace WEB_API.Web.Controllers
 
             return BadRequest(GetModelStateErrors(ModelState));
         }
+
+        [HttpDelete("deleteDetail")]
+        [AllowAnonymous]
+        public async Task<ActionResult> DeleteOrderDetail(int productId)
+        {
+            OrderModel result;
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                result = await _orderService.RemoveDetailFromOrder(userId, productId);
+            }
+            else
+            {
+                var orderId = Request.Cookies.ContainsKey("OrderId") ? Request.Cookies["OrderId"] : null;
+                if (orderId != null)
+                {
+                    result = await _orderService.RemoveDetailFromOrder(Convert.ToInt32(orderId), productId);
+                }
+                
+                ModelState.AddModelError("", "Cookie doesn't contains orderId");
+                return BadRequest(GetModelStateErrors(ModelState));
+            }
+
+            if (result != null)
+            {
+                return Ok(_mapper.Map<OutOrderViewModel>(result));
+            }
+            
+            ModelState.AddModelError("", "Error occured while deleting order detail.");
+            return BadRequest(GetModelStateErrors(ModelState));
+        }
     }
 }

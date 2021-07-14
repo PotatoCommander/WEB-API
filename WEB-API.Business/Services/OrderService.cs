@@ -69,20 +69,22 @@ namespace WEB_API.Business.Services
 
         public async Task<OrderModel> RemoveDetailFromOrder(int orderId, int productId)
         {
-            return null;
+            var result = await _orderRepository.DeleteOrderDetail(productId, orderId);
+            return result != null ? _mapper.Map<OrderModel>(result) : null;
         }
 
-        public async Task<OrderModel> GetOrderById(int id)
-        {
-            var order = await _orderRepository.GetOrderById(id);
-            return _mapper.Map<OrderModel>(order);
-        }
-
-        public async Task<OrderModel> GetOrderByUserId(string userId)
+        public async Task<OrderModel> RemoveDetailFromOrder(string userId, int productId)
         {
             var order = await _orderRepository.GetOrderByUserId(userId);
-            return _mapper.Map<OrderModel>(order);
+            if (order != null)
+            {
+                var result = await _orderRepository.DeleteOrderDetail(productId, order.Id);
+                return result != null ? _mapper.Map<OrderModel>(result) : null;
+            }
+
+            return null;
         }
+        
 
         public async Task<OrderModel> SetOrderStatus(int orderId, OrderStatuses status)
         {
