@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -71,6 +72,7 @@ namespace WEB_API.DAL.Repositories
                 if (product != null && product.Count >= detail.Quantity)
                 {
                     product.Count -= detail.Quantity;
+                    detail.Price = await CalculateDetailPrice(detail);
                     await _context.SaveChangesAsync();
                     return order;
                 }
@@ -90,6 +92,7 @@ namespace WEB_API.DAL.Repositories
                 if (product != null && product.Count >= detail.Quantity)
                 {
                     detailToUpdate.Quantity += detail.Quantity;
+                    detailToUpdate.Price = await CalculateDetailPrice(detailToUpdate);
                     product.Count -= detail.Quantity;
                     await _context.SaveChangesAsync();
                     return order;
@@ -103,7 +106,7 @@ namespace WEB_API.DAL.Repositories
 
         public async Task<Order> DeleteOrderDetail(OrderDetail orderDetail)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public async Task<Order> DeleteOrder(int orderId)
@@ -139,6 +142,7 @@ namespace WEB_API.DAL.Repositories
             if (order != null)
             {
                 await _context.OrderDetails.Where(x => x.OrderId == order.Id).LoadAsync();
+                order.OrderDetails ??= new Collection<OrderDetail>();
             }
             
             return order;
@@ -150,13 +154,15 @@ namespace WEB_API.DAL.Repositories
                 .SumAsync(x => x.Product.Price * x.Quantity);
         }
 
+        private async Task<decimal> CalculateDetailPrice(OrderDetail detail)
+        {
+            return (await _context.Products.FirstOrDefaultAsync(x => x.Id == detail.ProductId)).Price * detail.Quantity;
+        }
         public async Task<bool> IsOrderExists(int orderId)
         {
             var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == orderId && x.OrderStatus == 0);
             return order != null;
         }
         
-        //TODO: Add date to model
-        //TODO: Calculate price in DAL
     }
 }

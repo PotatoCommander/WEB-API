@@ -35,7 +35,7 @@ namespace WEB_API.Business.Services
             }
             else
             {
-                order = orderDetail.OrderId != null
+                order = orderDetail.OrderId != null //make sure is it clean logic
                     ? await _orderRepository.GetOrderById((int) orderDetail.OrderId)
                     : null;
             }

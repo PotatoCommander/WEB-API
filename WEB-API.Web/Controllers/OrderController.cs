@@ -35,7 +35,6 @@ namespace WEB_API.Web.Controllers
                 {
                     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                     result = await _orderService.AddDetailToOrder(orderDetail, userId);
-                    
                 }
                 else
                 {

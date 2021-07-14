@@ -7,7 +7,7 @@ namespace WEB_API.Web.ViewModels
     {
         public int Id { get; set; }
         public string ApplicationUserId { get; set; }
-        public ICollection<OrderDetailViewModel> OrderDetails { get; set; }
+        public ICollection<OutOrderDetailViewModel> OrderDetails { get; set; }
         public OrderStatuses OrderStatus { get; set; }
         public decimal TotalSum { get; set; }
     }

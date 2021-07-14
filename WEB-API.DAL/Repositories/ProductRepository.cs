@@ -54,7 +54,6 @@ namespace WEB_API.DAL.Repositories
             }
             
             return product;
-            //TODO: Move rating to product
         }
         public async Task<Rating> AddRating(Rating item)
         {
