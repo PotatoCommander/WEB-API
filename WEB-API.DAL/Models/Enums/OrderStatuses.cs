@@ -3,6 +3,7 @@
     public enum OrderStatuses
     {
         OPENED,
-        CLOSED
+        EXECUTED,
+        DISCARDED
     }
 }

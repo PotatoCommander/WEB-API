@@ -107,12 +107,15 @@ namespace WEB_API.DAL.Repositories
         public async Task<Order> DeleteOrderDetail(int productId, int orderId)
         {
             var order = await GetOrderById(orderId);
+            //Should be Count in products and price in order detail DB-calculated? Will it make execution faster?
+            var product = _context.Products.FirstOrDefault(x => x.Id == productId);
             if (order != null)
             {
                 var item = order.OrderDetails.FirstOrDefault(x => x.ProductId == productId);
-                if (item != null)
+                if (item != null && product != null)
                 {
                     var isRemoved = order.OrderDetails.Remove(item);
+                    product.Count += item.Quantity;
                     if (isRemoved)
                     {
                         await _context.SaveChangesAsync();
@@ -130,9 +133,22 @@ namespace WEB_API.DAL.Repositories
 
         public async Task<Order> DeleteOrder(int orderId)
         {
-            var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == orderId);
+            var order = await GetOrderById(orderId);
             if (order != null)
             {
+                if (order.OrderDetails.Count > 0)
+                {
+                    foreach (var detail in order.OrderDetails)
+                    {
+                        var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == detail.ProductId);
+                        if (product != null)
+                        {
+                            product.Count += detail.Quantity;
+                        }
+                    }
+                    
+                    order.OrderDetails.Clear();
+                }
                 var deletedOrder = _context.Orders.Remove(order);
                 await _context.SaveChangesAsync();
                 return deletedOrder.Entity;
