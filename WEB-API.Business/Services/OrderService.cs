@@ -67,28 +67,39 @@ namespace WEB_API.Business.Services
             return outResult;
         }
 
-        public async Task<OrderModel> RemoveDetailFromOrder(int orderId, int productId)
+        public async Task<OrderModel> RemoveDetailFromOrder(int orderId, int productId, uint? count)
         {
-            var result = await _orderRepository.DeleteOrderDetail(productId, orderId);
+            var result = await _orderRepository.DeleteOrderDetail(productId, orderId, count);
             return result != null ? _mapper.Map<OrderModel>(result) : null;
         }
 
-        public async Task<OrderModel> RemoveDetailFromOrder(string userId, int productId)
+        public async Task<OrderModel> RemoveDetailFromOrder(string userId, int productId, uint? count)
         {
             var order = await _orderRepository.GetOrderByUserId(userId);
             if (order != null)
             {
-                var result = await _orderRepository.DeleteOrderDetail(productId, order.Id);
-                return result != null ? _mapper.Map<OrderModel>(result) : null;
+                return await RemoveDetailFromOrder(order.Id, productId, count);
             }
 
             return null;
         }
         
 
-        public async Task<OrderModel> SetOrderStatus(int orderId, OrderStatuses status)
+        public async Task<OrderModel> SetOrderStatus(int orderId, int status)
         {
-            throw new NotImplementedException();
+            if (Enum.IsDefined(typeof(OrderStatuses), status))
+            {
+                var result = await _orderRepository.UpdateOrderStatus(orderId,(OrderStatuses)status);
+                return result != null ? _mapper.Map<OrderModel>(result) : null;
+            }
+
+            return null;
+        }
+
+        public async Task<OrderModel> SetOrderStatus(string userId, int status)
+        {
+            var order = await _orderRepository.GetOrderByUserId(userId);
+            return await SetOrderStatus(order.Id, status);
         }
     }
 }

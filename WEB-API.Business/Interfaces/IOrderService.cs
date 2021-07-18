@@ -8,8 +8,9 @@ namespace WEB_API.Business.Interfaces
     {
         Task<OrderModel> CreateOrder(OrderModel order);
         Task<OrderModel> AddDetailToOrder(OrderDetailModel orderDetail, string userId = null);
-        Task<OrderModel> RemoveDetailFromOrder(int orderId, int productId);
-        Task<OrderModel> RemoveDetailFromOrder(string userId, int productId);
-        Task<OrderModel> SetOrderStatus(int orderId,OrderStatuses status);
+        Task<OrderModel> RemoveDetailFromOrder(int orderId, int productId, uint? count);
+        Task<OrderModel> RemoveDetailFromOrder(string userId, int productId, uint? count);
+        Task<OrderModel> SetOrderStatus(int orderId, int status);
+        Task<OrderModel> SetOrderStatus(string userId, int status);
     }
 }

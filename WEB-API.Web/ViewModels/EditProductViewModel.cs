@@ -17,6 +17,6 @@ namespace WEB_API.Web.ViewModels
         public decimal? Price { get; set; }
         [EnumDataType(typeof(Categories), ErrorMessage = "Invalid category Enum value.")]
         public Categories? Category { get; set; }
-        //TODO: add count
+        public uint? Count { get; set; }
     }
 }

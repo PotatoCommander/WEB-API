@@ -12,7 +12,5 @@ namespace WEB_API.DAL.Models
         public ApplicationUser ApplicationUser { get; set; }
         public OrderStatuses OrderStatus { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; }
-        
-        
     }
 }

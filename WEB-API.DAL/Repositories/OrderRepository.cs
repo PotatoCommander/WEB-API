@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WEB_API.DAL.Data;
 using WEB_API.DAL.Models;
+using WEB_API.DAL.Models.Enums;
 
 namespace WEB_API.DAL.Repositories
 {
@@ -23,6 +24,19 @@ namespace WEB_API.DAL.Repositories
             var result = await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
             return result.Entity;
+        }
+
+        public async Task<Order> UpdateOrderStatus(int orderId, OrderStatuses status)
+        {
+            var order = await _context.Orders.FindAsync(orderId);
+            if (order != null)
+            {
+                order.OrderStatus = status;
+                await _context.SaveChangesAsync();
+                return order;
+            }
+
+            return null;
         }
 
         public async Task<Order> AddOrderDetail(OrderDetail orderDetail)
@@ -64,7 +78,6 @@ namespace WEB_API.DAL.Repositories
 
         private async Task<Order> CreateOrderDetail(OrderDetail detail, Order order)
         {
-            
             var product = await _context.Products.FindAsync(detail.ProductId);
             if (order != null)
             {
@@ -72,7 +85,6 @@ namespace WEB_API.DAL.Repositories
                 if (product != null && product.Count >= detail.Quantity)
                 {
                     product.Count -= detail.Quantity;
-                    detail.Price = await CalculateDetailPrice(detail);
                     await _context.SaveChangesAsync();
                     return order;
                 }
@@ -82,6 +94,7 @@ namespace WEB_API.DAL.Repositories
 
             return null;
         }
+        //TODO: Fix count of products 
 
         private async Task<Order> UpdateOrderDetail(OrderDetail detail, Order order)
         {
@@ -92,7 +105,6 @@ namespace WEB_API.DAL.Repositories
                 if (product != null && product.Count >= detail.Quantity)
                 {
                     detailToUpdate.Quantity += detail.Quantity;
-                    detailToUpdate.Price = await CalculateDetailPrice(detailToUpdate);
                     product.Count -= detail.Quantity;
                     await _context.SaveChangesAsync();
                     return order;
@@ -104,18 +116,31 @@ namespace WEB_API.DAL.Repositories
             return null;
         }
 
-        public async Task<Order> DeleteOrderDetail(int productId, int orderId)
+        public async Task<Order> DeleteOrderDetail(int productId, int orderId, uint? count)
         {
             var order = await GetOrderById(orderId);
             //Should be Count in products and price in order detail DB-calculated? Will it make execution faster?
             var product = _context.Products.FirstOrDefault(x => x.Id == productId);
             if (order != null)
             {
-                var item = order.OrderDetails.FirstOrDefault(x => x.ProductId == productId);
-                if (item != null && product != null)
+                var detail = order.OrderDetails.FirstOrDefault(x => x.ProductId == productId);
+                if (detail != null && product != null)
                 {
-                    var isRemoved = order.OrderDetails.Remove(item);
-                    product.Count += item.Quantity;
+                    if (count != null)
+                    {
+                        if (detail.Quantity > count)
+                        {
+                            detail.Quantity -= (uint)count;
+                            product.Count += (uint)count;
+                            await _context.SaveChangesAsync();
+                            return order;
+                        }
+
+                        return null;
+                    }
+                    
+                    var isRemoved = order.OrderDetails.Remove(detail);
+                    product.Count += detail.Quantity;
                     if (isRemoved)
                     {
                         await _context.SaveChangesAsync();
@@ -136,19 +161,6 @@ namespace WEB_API.DAL.Repositories
             var order = await GetOrderById(orderId);
             if (order != null)
             {
-                if (order.OrderDetails.Count > 0)
-                {
-                    foreach (var detail in order.OrderDetails)
-                    {
-                        var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == detail.ProductId);
-                        if (product != null)
-                        {
-                            product.Count += detail.Quantity;
-                        }
-                    }
-                    
-                    order.OrderDetails.Clear();
-                }
                 var deletedOrder = _context.Orders.Remove(order);
                 await _context.SaveChangesAsync();
                 return deletedOrder.Entity;
@@ -158,6 +170,7 @@ namespace WEB_API.DAL.Repositories
         }
 
         //Returns the order with loaded nav fields
+        //TODO: dont call repo methods from repo
         public async Task<Order> GetOrderById(int id)
         {
             var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == id && x.OrderStatus == 0);
@@ -188,16 +201,12 @@ namespace WEB_API.DAL.Repositories
             return await _context.OrderDetails.Where(x => x.OrderId == orderId)
                 .SumAsync(x => x.Product.Price * x.Quantity);
         }
-
-        private async Task<decimal> CalculateDetailPrice(OrderDetail detail)
-        {
-            return (await _context.Products.FirstOrDefaultAsync(x => x.Id == detail.ProductId)).Price * detail.Quantity;
-        }
-        public async Task<bool> IsOrderExists(int orderId)
-        {
-            var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == orderId && x.OrderStatus == 0);
-            return order != null;
-        }
-        
+        //TODO: Wrap select in Discard order and Apply order
+        //Logging SeriLog (or something else). User actions. Warning logs. Error logs. File for each action.
+        //GZIP as no tracking everywhere possible
+        //Exceptions log
+        //IIS publication
+        //Little fixes
+        //Optimization
     }
 }

@@ -38,6 +38,7 @@ namespace WEB_API.Web.Controllers
                 }
                 else
                 {
+                    //TODO: Cookie service (get; set cookie)
                     var orderId = Request.Cookies.ContainsKey("OrderId") ? Request.Cookies["OrderId"] : null;
                     if (orderId != null)
                     {
@@ -65,24 +66,26 @@ namespace WEB_API.Web.Controllers
 
         [HttpDelete("deleteDetail")]
         [AllowAnonymous]
-        public async Task<ActionResult> DeleteOrderDetail(int productId)
+        public async Task<ActionResult> DeleteOrderDetail(int productId, uint? count = null)
         {
             OrderModel result;
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                result = await _orderService.RemoveDetailFromOrder(userId, productId);
+                result = await _orderService.RemoveDetailFromOrder(userId, productId, count);
             }
             else
             {
                 var orderId = Request.Cookies.ContainsKey("OrderId") ? Request.Cookies["OrderId"] : null;
                 if (orderId != null)
                 {
-                    result = await _orderService.RemoveDetailFromOrder(Convert.ToInt32(orderId), productId);
+                    result = await _orderService.RemoveDetailFromOrder(Convert.ToInt32(orderId), productId, count);
                 }
-                
-                ModelState.AddModelError("", "Cookie doesn't contains orderId");
-                return BadRequest(GetModelStateErrors(ModelState));
+                else
+                {
+                    ModelState.AddModelError("", "Cookie doesn't contains orderId");
+                    return BadRequest(GetModelStateErrors(ModelState));
+                }
             }
 
             if (result != null)
@@ -93,5 +96,39 @@ namespace WEB_API.Web.Controllers
             ModelState.AddModelError("", "Error occured while deleting order detail.");
             return BadRequest(GetModelStateErrors(ModelState));
         }
+
+        [HttpPatch("setStatus")]
+        [AllowAnonymous]
+        public async Task<ActionResult> UpdateStatus(int status)
+        {
+            OrderModel result;
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                result = await _orderService.SetOrderStatus(userId, status);
+            }
+            else
+            {
+                var orderId = Request.Cookies.ContainsKey("OrderId") ? Request.Cookies["OrderId"] : null;
+                if (orderId != null)
+                {
+                    result = await _orderService.SetOrderStatus(Convert.ToInt32(orderId), status);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Cookie doesn't contains orderId");
+                    return BadRequest(GetModelStateErrors(ModelState));
+                }
+            }
+
+            if (result != null)
+            {
+                return Ok(_mapper.Map<OutOrderViewModel>(result));
+            }
+
+            ModelState.AddModelError("", "Error occured while changing status.");
+            return BadRequest(GetModelStateErrors(ModelState));
+        }
+        //TODO:add total sum to order after delete.
     }
 }

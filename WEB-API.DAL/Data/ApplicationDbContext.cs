@@ -39,6 +39,9 @@ namespace WEB_API.DAL.Data
             builder.Entity<Product>()
                 .Property(e => e.Rating)
                 .HasComputedColumnSql("ApiAdmin.GetAverage([Id])");
+            builder.Entity<OrderDetail>()
+                .Property(e => e.Price)
+                .HasComputedColumnSql("ApiAdmin.DetailPrice([ProductId], [Quantity])");
         }
     }
 }
