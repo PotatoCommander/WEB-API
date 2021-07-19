@@ -97,22 +97,22 @@ namespace WEB_API.Web.Controllers
             return BadRequest(GetModelStateErrors(ModelState));
         }
 
-        [HttpPatch("setStatus")]
+        [HttpPatch("ExecuteOrder")]
         [AllowAnonymous]
-        public async Task<ActionResult> UpdateStatus(int status)
+        public async Task<ActionResult> ExecuteOrder()
         {
             OrderModel result;
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                result = await _orderService.SetOrderStatus(userId, status);
+                result = await _orderService.ExecuteOrder(userId);
             }
             else
             {
                 var orderId = Request.Cookies.ContainsKey("OrderId") ? Request.Cookies["OrderId"] : null;
                 if (orderId != null)
                 {
-                    result = await _orderService.SetOrderStatus(Convert.ToInt32(orderId), status);
+                    result = await _orderService.ExecuteOrder(Convert.ToInt32(orderId));
                 }
                 else
                 {
@@ -126,7 +126,40 @@ namespace WEB_API.Web.Controllers
                 return Ok(_mapper.Map<OutOrderViewModel>(result));
             }
 
-            ModelState.AddModelError("", "Error occured while changing status.");
+            ModelState.AddModelError("", "Error occured while executing order.");
+            return BadRequest(GetModelStateErrors(ModelState));
+        }
+        
+        [HttpPatch("DiscardOrder")]
+        [AllowAnonymous]
+        public async Task<ActionResult> DiscardOrder()
+        {
+            OrderModel result;
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                result = await _orderService.DiscardOrder(userId);
+            }
+            else
+            {
+                var orderId = Request.Cookies.ContainsKey("OrderId") ? Request.Cookies["OrderId"] : null;
+                if (orderId != null)
+                {
+                    result = await _orderService.DiscardOrder(Convert.ToInt32(orderId));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Cookie doesn't contains orderId");
+                    return BadRequest(GetModelStateErrors(ModelState));
+                }
+            }
+
+            if (result != null)
+            {
+                return Ok(_mapper.Map<OutOrderViewModel>(result));
+            }
+
+            ModelState.AddModelError("", "Error occured while discarding order.");
             return BadRequest(GetModelStateErrors(ModelState));
         }
         //TODO:add total sum to order after delete.

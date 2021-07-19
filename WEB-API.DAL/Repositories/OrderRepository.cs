@@ -148,17 +148,35 @@ namespace WEB_API.DAL.Repositories
             return null;
         }
 
-        public async Task<Order> DeleteOrder(int orderId)
+        public async Task<Order> DeleteOrder(int orderId, bool revertDetails = false)
         {
-            var order = await GetActiveOrderById(orderId);
-            if (order != null)
+            var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == orderId);
+            if (order == null)
             {
-                var deletedOrder = _context.Orders.Remove(order);
-                await _context.SaveChangesAsync();
-                return deletedOrder.Entity;
+                return null;
             }
+            
+            if (revertDetails)
+            {
+                order = await LoadDetailsToOrder(order, isTracking: true);
+                if (order.OrderDetails != null)
+                {
+                    foreach (var orderDetail in order.OrderDetails)
+                    {
+                        var product = await _context.Products.FindAsync(orderDetail.ProductId);
+                        if (product == null)
+                        {
+                            return null;
+                        }
 
-            return null;
+                        product.Count += orderDetail.Quantity;
+                    }
+                }
+            }
+            
+            var deletedOrder = _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
+            return deletedOrder?.Entity;
         }
 
         public async Task<Order> GetActiveOrderById(int id)

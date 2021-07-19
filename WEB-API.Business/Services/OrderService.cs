@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using WEB_API.Business.BusinessModels;
 using WEB_API.Business.Interfaces;
@@ -92,23 +91,41 @@ namespace WEB_API.Business.Services
 
             return null;
         }
-        
 
-        public async Task<OrderModel> SetOrderStatus(int orderId, int status)
+        public async Task<OrderModel> ExecuteOrder(int orderId)
         {
-            if (Enum.IsDefined(typeof(OrderStatuses), status))
+            var result = await _orderRepository.UpdateOrderStatus(orderId, status: OrderStatuses.EXECUTED);
+            return _mapper.Map<OrderModel>(result);
+        }
+
+        public async Task<OrderModel> ExecuteOrder(string userId)
+        {
+            var order = await _orderRepository.GetActiveOrderByUserId(userId);
+            if (order != null)
             {
-                var result = await _orderRepository.UpdateOrderStatus(orderId,(OrderStatuses)status);
+                var result = await _orderRepository.UpdateOrderStatus(order.Id, status: OrderStatuses.EXECUTED);
                 return result != null ? _mapper.Map<OrderModel>(result) : null;
             }
 
             return null;
         }
 
-        public async Task<OrderModel> SetOrderStatus(string userId, int status)
+        public async Task<OrderModel> DiscardOrder(int orderId)
+        {
+            var result = await _orderRepository.DeleteOrder(orderId, revertDetails: true);
+            return result != null ? _mapper.Map<OrderModel>(result) : null;
+        }
+
+        public async Task<OrderModel> DiscardOrder(string userId)
         {
             var order = await _orderRepository.GetActiveOrderByUserId(userId);
-            return await SetOrderStatus(order.Id, status);
+            if (order != null)
+            {
+                var result = await _orderRepository.DeleteOrder(order.Id, revertDetails: true);
+                return result != null ? _mapper.Map<OrderModel>(result) : null;
+            }
+
+            return null;
         }
     }
 }

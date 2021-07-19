@@ -10,7 +10,7 @@ namespace WEB_API.DAL.Repositories
         Task<Order> GetActiveOrderById(int id);
         Task<Order> GetActiveOrderByUserId(string userId);
         Task<Order> UpdateOrderStatus(int orderId, OrderStatuses status);
-        Task<Order> DeleteOrder(int orderId);
+        Task<Order> DeleteOrder(int orderId, bool revertDetails = false);
         Task<decimal> CalculateTotalPrice(int orderId);
         
         
