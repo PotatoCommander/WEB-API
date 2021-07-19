@@ -7,12 +7,17 @@ namespace WEB_API.DAL.Repositories
     public interface IOrderRepository
     {
         Task<Order> AddOrder(Order order);
-        Task<Order> DeleteOrder(int orderId);
+        Task<Order> GetActiveOrderById(int id);
+        Task<Order> GetActiveOrderByUserId(string userId);
         Task<Order> UpdateOrderStatus(int orderId, OrderStatuses status);
-        Task<Order> AddOrderDetail(OrderDetail orderDetail);
-        Task<Order> DeleteOrderDetail(int productId, int orderId, uint? count);
-        Task<Order> GetOrderById(int id);
-        Task<Order> GetOrderByUserId(string userId);
+        Task<Order> DeleteOrder(int orderId);
         Task<decimal> CalculateTotalPrice(int orderId);
+        
+        
+        Task<Order> CreateOrderDetail(OrderDetail orderDetail);
+        Task<OrderDetail> GetOrderDetail(int orderId, int productId);
+        Task<Order> UpdateOrderDetail(OrderDetail orderDetail);
+        Task<Order> DeleteOrderDetail(int productId, int orderId, uint? count);
+        
     }
 }
