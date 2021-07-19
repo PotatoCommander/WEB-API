@@ -214,8 +214,7 @@ namespace WEB_API.DAL.Repositories
             return await _context.OrderDetails.Where(x => x.OrderId == orderId)
                 .SumAsync(x => x.Product.Price * x.Quantity);
         }
-
-        //TODO: Wrap select in Discard order and Apply order
+        
         //Logging SeriLog (or something else). User actions. Warning logs. Error logs. File for each action.
         //GZIP as no tracking everywhere possible
         //Exceptions log

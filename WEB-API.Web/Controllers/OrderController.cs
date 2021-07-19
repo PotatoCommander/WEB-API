@@ -38,7 +38,6 @@ namespace WEB_API.Web.Controllers
                 }
                 else
                 {
-                    //TODO: Cookie service (get; set cookie)
                     var orderId = Request.Cookies.ContainsKey("OrderId") ? Request.Cookies["OrderId"] : null;
                     if (orderId != null)
                     {
@@ -130,7 +129,7 @@ namespace WEB_API.Web.Controllers
             return BadRequest(GetModelStateErrors(ModelState));
         }
         
-        [HttpPatch("DiscardOrder")]
+        [HttpDelete("DiscardOrder")]
         [AllowAnonymous]
         public async Task<ActionResult> DiscardOrder()
         {
