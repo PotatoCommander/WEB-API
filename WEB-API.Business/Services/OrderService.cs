@@ -31,19 +31,28 @@ namespace WEB_API.Business.Services
             Order order;
             if (userId != null)
             {
-                order = await _orderRepository.GetOrderByUserId(userId);
+                order = await _orderRepository.GetActiveOrderByUserId(userId);
             }
             else
             {
                 order = orderDetail.OrderId != null //make sure is it clean logic
-                    ? await _orderRepository.GetOrderById((int) orderDetail.OrderId)
+                    ? await _orderRepository.GetActiveOrderById((int) orderDetail.OrderId)
                     : null;
             }
+            
             
             if (order != null)
             {
                 orderDetail.OrderId = order.Id;
-                var result = await _orderRepository.AddOrderDetail(_mapper.Map<OrderDetail>(orderDetail));
+                Order result;
+                if (await _orderRepository.GetOrderDetail(order.Id, orderDetail.ProductId) != null)
+                {
+                    result = await _orderRepository.UpdateOrderDetail(_mapper.Map<OrderDetail>(orderDetail));
+                }
+                else
+                {
+                    result = await _orderRepository.CreateOrderDetail(_mapper.Map<OrderDetail>(orderDetail));
+                }
                 return result != null ? await AddTotalPriceToOrder(result) : null;
             }
 
@@ -53,7 +62,7 @@ namespace WEB_API.Business.Services
             if (createdOrder != null)
             {
                 orderDetail.OrderId = createdOrder.Id;
-                var result = await _orderRepository.AddOrderDetail(_mapper.Map<OrderDetail>(orderDetail));
+                var result = await _orderRepository.CreateOrderDetail(_mapper.Map<OrderDetail>(orderDetail));
                 return result != null ? await AddTotalPriceToOrder(result) : null;
             }
 
@@ -75,7 +84,7 @@ namespace WEB_API.Business.Services
 
         public async Task<OrderModel> RemoveDetailFromOrder(string userId, int productId, uint? count)
         {
-            var order = await _orderRepository.GetOrderByUserId(userId);
+            var order = await _orderRepository.GetActiveOrderByUserId(userId);
             if (order != null)
             {
                 return await RemoveDetailFromOrder(order.Id, productId, count);
@@ -98,7 +107,7 @@ namespace WEB_API.Business.Services
 
         public async Task<OrderModel> SetOrderStatus(string userId, int status)
         {
-            var order = await _orderRepository.GetOrderByUserId(userId);
+            var order = await _orderRepository.GetActiveOrderByUserId(userId);
             return await SetOrderStatus(order.Id, status);
         }
     }
