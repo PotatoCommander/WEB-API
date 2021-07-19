@@ -62,14 +62,8 @@ namespace WEB_API.DAL.Repositories
                             await _context.SaveChangesAsync();
                             return await LoadDetailsToOrder(outOrder);
                         }
-
-                        return null;
                     }
-
-                    return null;
                 }
-
-                return null;
             }
 
             return null;
