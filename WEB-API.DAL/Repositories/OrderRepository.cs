@@ -23,7 +23,7 @@ namespace WEB_API.DAL.Repositories
             await _context.SaveChangesAsync();
             return result.Entity;
         }
-
+        
         public async Task<Order> UpdateOrderStatus(int orderId, OrderStatuses status)
         {
             var order = await _context.Orders.FindAsync(orderId);
