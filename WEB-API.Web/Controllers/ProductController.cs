@@ -62,25 +62,7 @@ namespace WEB_API.Web.Controllers
 
             return BadRequest(GetModelStateErrors(ModelState));
         }
-
-        //DEBUG------------------------------------------------------------------------
-        [HttpPost("AddProducts")]
-        public async Task<ActionResult> AddProducts(List<AddProductViewModel> model)
-        {
-            if (ModelState.IsValid)
-            {
-                foreach (var item in model)
-                {
-                    await _productService.AddProduct(_mapper.Map<ProductModel>(item));
-                }
-
-                return Ok();
-            }
-
-            return BadRequest();
-        }
-        //DEBUG------------------------------------------------------------------------
-
+        
         [HttpDelete("Delete")]
         [Authorize(Roles = Roles.Admin)]
         public async Task<ActionResult> DeleteProduct(int id)

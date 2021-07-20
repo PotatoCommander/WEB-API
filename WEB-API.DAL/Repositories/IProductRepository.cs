@@ -16,6 +16,5 @@ namespace WEB_API.DAL.Repositories
         Task<Rating> AddRating(Rating item);
         Task<Rating> UpdateRating(Rating item);
         bool IsRatingExists(int productId, string userId);
-
     }
 }

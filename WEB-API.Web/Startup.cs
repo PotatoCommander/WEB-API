@@ -1,10 +1,11 @@
+using System.IO.Compression;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
 using WEB_API.Business.Helpers;
 using WEB_API.Business.Interfaces;
 using WEB_API.Business.Services;
@@ -27,6 +28,14 @@ namespace WEB_API.Web
         
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Fastest);
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<GzipCompressionProvider>();
+                //Is it unsafe?
+                options.EnableForHttps = true;
+            });
+            
             services.AddControllers().ConfigureApiBehaviorOptions(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
@@ -47,6 +56,7 @@ namespace WEB_API.Web
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IOrderService, OrderService>();
+            //learn DI
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddAutoMapper(typeof(MapperProfileBusinessToDAL), typeof(MapperProfileWeb));
         }
@@ -54,12 +64,10 @@ namespace WEB_API.Web
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHttpsRedirection();
-            
+            app.UseResponseCompression();
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
