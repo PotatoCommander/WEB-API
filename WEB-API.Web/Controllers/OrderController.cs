@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using WEB_API.Business.BusinessModels;
 using WEB_API.Business.Interfaces;
 using WEB_API.Web.ViewModels;

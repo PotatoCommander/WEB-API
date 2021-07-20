@@ -217,6 +217,7 @@ namespace WEB_API.DAL.Repositories
         
         //Logging SeriLog (or something else). User actions. Warning logs. Error logs. File for each action.
         //GZIP as no tracking everywhere possible
+        //Add profile publication
         //Exceptions log
         //IIS publication
         //Little fixes

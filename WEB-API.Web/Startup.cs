@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using WEB_API.Business.Helpers;
 using WEB_API.Business.Interfaces;
 using WEB_API.Business.Services;
@@ -53,7 +54,7 @@ namespace WEB_API.Web
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHttpsRedirection();
-
+            
             app.UseRouting();
 
             app.UseAuthentication();
