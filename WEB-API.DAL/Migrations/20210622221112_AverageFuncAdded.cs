@@ -17,7 +17,7 @@ namespace WEB_API.DAL.Migrations
                 table: "Products",
                 type: "real",
                 nullable: false,
-                computedColumnSql: "ApiAdmin.GetAverage([Id])",
+                computedColumnSql: "dbo.GetAverage([Id])",
                 oldClrType: typeof(float),
                 oldType: "real");
         }
@@ -31,7 +31,7 @@ namespace WEB_API.DAL.Migrations
                 nullable: false,
                 oldClrType: typeof(float),
                 oldType: "real",
-                oldComputedColumnSql: "ApiAdmin.GetAverage([Id])");
+                oldComputedColumnSql: "dbo.GetAverage([Id])");
         }
     }
 }

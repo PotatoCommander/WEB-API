@@ -21,7 +21,7 @@ namespace WEB_API.DAL.Migrations
                 table: "OrderDetails",
                 type: "decimal(18,2)",
                 nullable: false,
-                computedColumnSql: "ApiAdmin.DetailPrice([ProductId], [Quantity])",
+                computedColumnSql: "dbo.DetailPrice([ProductId], [Quantity])",
                 oldClrType: typeof(decimal),
                 oldType: "decimal(18,2)");
         }
