@@ -35,7 +35,7 @@ namespace WEB_API.DAL.Data
                 .IsUnique();
             builder.Entity<Rating>()
                 .HasKey(o => new { o.ProductId, o.ApplicationUserId });
-            builder.Entity<OrderDetail>().HasKey(o=> new {o.OrderId, o.ProductId});
+            builder.Entity<OrderDetail>().HasKey(o=> new {o.ProductId, o.OrderId});
             builder.Entity<Product>()
                 .Property(e => e.Rating)
                 .HasComputedColumnSql("dbo.GetAverage([Id])");

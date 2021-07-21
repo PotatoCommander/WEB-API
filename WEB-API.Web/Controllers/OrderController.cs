@@ -24,6 +24,38 @@ namespace WEB_API.Web.Controllers
             _orderService = orderService;
         }
 
+        [HttpGet("getOrder")]
+        [AllowAnonymous]
+        public async Task<ActionResult> GetOrder()
+        {
+            OrderModel result;
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                result = await _orderService.GetActiveOrder(userId);
+            }
+            else
+            {
+                var orderId = Request.Cookies.ContainsKey("OrderId") ? Request.Cookies["OrderId"] : null;
+                if (orderId != null)
+                {
+                    result = await _orderService.GetActiveOrder(Convert.ToInt32(orderId));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid OrderId or empty cookie.");
+                    return BadRequest(GetModelStateErrors(ModelState));
+                }
+            }
+
+            if (result != null)
+            {
+                return Ok(_mapper.Map<OutOrderViewModel>(result));
+            }
+                
+            ModelState.AddModelError("", "Error occurred while adding detail.");
+            return BadRequest(GetModelStateErrors(ModelState));
+        }
         [HttpPost("addDetail")]
         [AllowAnonymous]
         public async Task<ActionResult> AddToOrder(OrderDetailViewModel orderDetailViewModel)
@@ -31,7 +63,7 @@ namespace WEB_API.Web.Controllers
             if (ModelState.IsValid)
             {
                 var orderDetail = _mapper.Map<OrderDetailModel>(orderDetailViewModel);
-                OrderModel result;
+                OrderDetailModel result;
                 if (User.Identity != null && User.Identity.IsAuthenticated)
                 {
                     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -48,13 +80,13 @@ namespace WEB_API.Web.Controllers
                     result = await _orderService.AddDetailToOrder(orderDetail);
                     if (result != null)
                     {
-                        Response.Cookies.Append("OrderId", result.Id.ToString());
+                        Response.Cookies.Append("OrderId", result.OrderId.ToString());
                     }
                 }
 
                 if (result != null)
                 {
-                    return Ok(_mapper.Map<OutOrderViewModel>(result));
+                    return Ok(_mapper.Map<OutOrderDetailViewModel>(result));
                 }
                 
                 ModelState.AddModelError("", "Error occurred while adding detail.");
@@ -68,7 +100,7 @@ namespace WEB_API.Web.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> DeleteOrderDetail(int productId, uint? count = null)
         {
-            OrderModel result;
+            OrderDetailModel result;
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -90,7 +122,7 @@ namespace WEB_API.Web.Controllers
 
             if (result != null)
             {
-                return Ok(_mapper.Map<OutOrderViewModel>(result));
+                return Ok(_mapper.Map<OutOrderDetailViewModel>(result));
             }
             
             ModelState.AddModelError("", "Error occured while deleting order detail.");
@@ -140,6 +172,10 @@ namespace WEB_API.Web.Controllers
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 result = await _orderService.DiscardOrder(userId);
             }
+            //TODO: delete anonymous orders after 24 hours
+            //TODO:Manual test endpoints
+            //TODO: Write unit tests to one of request-chain
+            //TODO: Caching
             else
             {
                 var orderId = Request.Cookies.ContainsKey("OrderId") ? Request.Cookies["OrderId"] : null;
@@ -162,6 +198,5 @@ namespace WEB_API.Web.Controllers
             ModelState.AddModelError("", "Error occured while discarding order.");
             return BadRequest(GetModelStateErrors(ModelState));
         }
-        //TODO:add total sum to order after delete.
     }
 }
