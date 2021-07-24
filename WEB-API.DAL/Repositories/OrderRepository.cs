@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WEB_API.DAL.Data;
 using WEB_API.DAL.Models;
@@ -20,10 +18,15 @@ namespace WEB_API.DAL.Repositories
         public async Task<Order> AddOrder(Order order)
         {
             var result = await _context.Orders.AddAsync(order);
-            await _context.SaveChangesAsync();
-            return result.Entity;
+            if (result.State == EntityState.Added)
+            {
+                await _context.SaveChangesAsync();
+                return result.Entity;
+            }
+
+            return null;
         }
-        
+
         public async Task<Order> UpdateOrderStatus(int orderId, OrderStatuses status)
         {
             var order = await _context.Orders.FindAsync(orderId);
@@ -44,24 +47,19 @@ namespace WEB_API.DAL.Repositories
             return detail;
         }
 
-        public async Task<Order> CreateOrderDetail(OrderDetail detail)
+        public async Task<OrderDetail> CreateOrderDetail(OrderDetail detail)
         {
             if (detail != null)
             {
                 var product = await _context.Products.FindAsync(detail.ProductId);
-                var insertedDetail = await _context.OrderDetails.AddAsync(detail);
-                if (insertedDetail != null)
+                if (product != null)
                 {
-                    if (product != null && product.Count >= detail.Quantity)
+                    var insertedDetail = await _context.OrderDetails.AddAsync(detail);
+                    if (product.Count >= detail.Quantity && insertedDetail.State == EntityState.Added)
                     {
                         product.Count -= detail.Quantity;
-                        var outOrder = await _context.Orders
-                            .FirstOrDefaultAsync(x => x.Id == insertedDetail.Entity.OrderId);
-                        if (outOrder != null)
-                        {
-                            await _context.SaveChangesAsync();
-                            return await LoadDetailsToOrder(outOrder);
-                        }
+                        await _context.SaveChangesAsync();
+                        return insertedDetail.Entity;
                     }
                 }
             }
@@ -69,60 +67,41 @@ namespace WEB_API.DAL.Repositories
             return null;
         }
 
-        public async Task<Order> UpdateOrderDetail(OrderDetail detail)
+        public async Task<OrderDetail> UpdateOrderDetail(OrderDetail detail)
         {
             if (detail != null)
             {
-                var detailToUpdate = await _context.OrderDetails
-                    .FirstOrDefaultAsync(x => x.OrderId == detail.OrderId && x.ProductId == detail.ProductId);
-                var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == detail.ProductId);
-                if (detailToUpdate != null)
+                var product = await _context.Products.FindAsync(detail.ProductId);
+                if (product != null)
                 {
-                    if (product != null && product.Count >= detail.Quantity)
+                    var detailToUpdate = await _context.OrderDetails.FindAsync(detail.ProductId, detail.OrderId);
+                    if (detailToUpdate != null && product.Count >= detail.Quantity)
                     {
                         detailToUpdate.Quantity += detail.Quantity;
                         product.Count -= detail.Quantity;
-                        var outOrder = await _context.Orders
-                            .FirstOrDefaultAsync(x => x.Id == detailToUpdate.OrderId);
-                        if (outOrder != null)
-                        {
-                            await _context.SaveChangesAsync();
-                            return await LoadDetailsToOrder(outOrder);
-                        }
-
-                        return null;
+                        await _context.SaveChangesAsync();
+                        return detailToUpdate;
                     }
-
-                    return null;
                 }
-
-                return null;
             }
 
             return null;
         }
 
-        public async Task<Order> DeleteOrderDetail(int productId, int orderId, uint? count)
+        public async Task<OrderDetail> DeleteOrderDetail(int productId, int orderId, uint? count)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
-            var detail = await _context.OrderDetails
-                .FirstOrDefaultAsync(x => x.OrderId == orderId && x.ProductId == productId);
-            if (detail != null && product != null)
+            var product = await _context.Products.FindAsync(productId);
+            if (product != null)
             {
+                var detail = await _context.OrderDetails.FindAsync(productId, orderId);
                 if (count != null)
                 {
                     if (detail.Quantity > count)
                     {
                         detail.Quantity -= (uint) count;
                         product.Count += (uint) count;
-                        var outOrder = await _context.Orders.FirstOrDefaultAsync(x => x.Id == orderId);
-                        if (outOrder != null)
-                        {
-                            await _context.SaveChangesAsync();
-                            return await LoadDetailsToOrder(outOrder);
-                        }
-
-                        return null;
+                        await _context.SaveChangesAsync();
+                        return detail;
                     }
 
                     return null;
@@ -130,16 +109,10 @@ namespace WEB_API.DAL.Repositories
 
                 var removedDetail = _context.OrderDetails.Remove(detail);
                 product.Count += detail.Quantity;
-                if (removedDetail != null)
+                if (removedDetail.State == EntityState.Deleted)
                 {
-                    var outOrder = await _context.Orders.FirstOrDefaultAsync(x => x.Id == orderId);
-                    if (outOrder != null)
-                    {
-                        await _context.SaveChangesAsync();
-                        return await LoadDetailsToOrder(outOrder);
-                    }
-
-                    return null;
+                    await _context.SaveChangesAsync();
+                    return removedDetail.Entity;
                 }
 
                 return null;
@@ -150,17 +123,18 @@ namespace WEB_API.DAL.Repositories
 
         public async Task<Order> DeleteOrder(int orderId, bool revertDetails = false)
         {
-            var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == orderId);
+            var order = await _context.Orders.FindAsync(orderId);
             if (order == null)
             {
                 return null;
             }
-            
+
             if (revertDetails)
             {
-                order = await LoadDetailsToOrder(order, isTracking: true);
+                await _context.Entry(order).Collection(x => x.OrderDetails).LoadAsync();
                 if (order.OrderDetails != null)
                 {
+                    //This is not a better way to delete i think
                     foreach (var orderDetail in order.OrderDetails)
                     {
                         var product = await _context.Products.FindAsync(orderDetail.ProductId);
@@ -173,50 +147,40 @@ namespace WEB_API.DAL.Repositories
                     }
                 }
             }
-            
+
             var deletedOrder = _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
             return deletedOrder?.Entity;
         }
 
-        public async Task<Order> GetActiveOrderById(int id)
+        public async Task<Order> GetOrder(int id, bool loadNavFields, OrderStatuses status)
         {
-            return await _context.Orders.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id && x.OrderStatus == 0);
-        }
-
-        public async Task<Order> GetActiveOrderByUserId(string userId)
-        {
-            return await _context.Orders.AsNoTracking()
-                .FirstOrDefaultAsync(x => x.ApplicationUserId == userId && x.OrderStatus == 0);
-        }
-
-        private async Task<Order> LoadDetailsToOrder(Order order, bool isTracking = false)
-        {
-            if (order != null)
+            if (loadNavFields)
             {
-                if (isTracking)
-                {
-                    await _context.OrderDetails.Where(x => x.OrderId == order.Id).LoadAsync();
-                    order.OrderDetails ??= new Collection<OrderDetail>();
-                }
-                else
-                {
-                    await _context.OrderDetails.AsNoTracking().Where(x => x.OrderId == order.Id).LoadAsync();
-                    order.OrderDetails ??= new Collection<OrderDetail>();
-                }
+                //experiment
+                var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == id && x.OrderStatus == status);
+                await _context.Entry(order).Collection(x => x.OrderDetails).LoadAsync();
+                return order;
             }
 
-            return order;
+            return await _context.Orders.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id && x.OrderStatus == status);
         }
 
-        public async Task<decimal> CalculateTotalPrice(int orderId)
+        public async Task<Order> GetOrder(string userId, bool loadNavFields, OrderStatuses status)
         {
-            return await _context.OrderDetails.Where(x => x.OrderId == orderId)
-                .SumAsync(x => x.Product.Price * x.Quantity);
+            if (loadNavFields)
+            {
+                var order = await _context.Orders
+                    .FirstOrDefaultAsync(x => x.ApplicationUserId == userId && x.OrderStatus == status);
+                await _context.Entry(order).Collection(x => x.OrderDetails).LoadAsync();
+                return order;
+            }
+
+            return await _context.Orders.AsNoTracking()
+                .FirstOrDefaultAsync(x => x.ApplicationUserId == userId && x.OrderStatus == status);
         }
-        
-        //Logging SeriLog (or something else). User actions. Warning logs. Error logs. File for each action.
-        //GZIP as no tracking everywhere possible
+
+
         //Add profile publication
         //Exceptions log
         //IIS publication

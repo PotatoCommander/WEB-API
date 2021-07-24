@@ -26,17 +26,31 @@ namespace WEB_API.Business.Services
             return _mapper.Map<OrderModel>(result);
         }
 
-        public async Task<OrderModel> AddDetailToOrder(OrderDetailModel orderDetail, string userId = null)
+        public async Task<OrderModel> GetActiveOrder(string userId)
+        {
+            var result = await _orderRepository.GetOrder(userId, true, OrderStatuses.OPENED);
+            return result != null ? _mapper.Map<OrderModel>(result) : null;
+        }
+
+        public async Task<OrderModel> GetActiveOrder(int orderId)
+        {
+            var result = await _orderRepository.GetOrder(orderId, true, OrderStatuses.OPENED);
+            return result != null ? _mapper.Map<OrderModel>(result) : null;
+        }
+
+        
+
+        public async Task<OrderDetailModel> AddDetailToOrder(OrderDetailModel orderDetail, string userId = null)
         {
             Order order;
             if (userId != null)
             {
-                order = await _orderRepository.GetActiveOrderByUserId(userId);
+                order = await _orderRepository.GetOrder(userId, false, OrderStatuses.OPENED);
             }
             else
             {
                 order = orderDetail.OrderId != null //make sure is it clean logic
-                    ? await _orderRepository.GetActiveOrderById((int) orderDetail.OrderId)
+                    ? await _orderRepository.GetOrder((int) orderDetail.OrderId, false, OrderStatuses.OPENED)
                     : null;
             }
             
@@ -44,7 +58,7 @@ namespace WEB_API.Business.Services
             if (order != null)
             {
                 orderDetail.OrderId = order.Id;
-                Order result;
+                OrderDetail result;
                 if (await _orderRepository.GetOrderDetail(order.Id, orderDetail.ProductId) != null)
                 {
                     result = await _orderRepository.UpdateOrderDetail(_mapper.Map<OrderDetail>(orderDetail));
@@ -53,31 +67,30 @@ namespace WEB_API.Business.Services
                 {
                     result = await _orderRepository.CreateOrderDetail(_mapper.Map<OrderDetail>(orderDetail));
                 }
-                return result != null ? await AddTotalPriceToOrder(result) : null;
+                return result != null ? _mapper.Map<OrderDetailModel>(result) : null;
             }
 
             var newOrder = new OrderModel() {OrderStatus = OrderStatuses.OPENED, ApplicationUserId = userId};
-
             var createdOrder = await _orderRepository.AddOrder(_mapper.Map<Order>(newOrder));
             if (createdOrder != null)
             {
                 orderDetail.OrderId = createdOrder.Id;
                 var result = await _orderRepository.CreateOrderDetail(_mapper.Map<OrderDetail>(orderDetail));
-                return result != null ? await AddTotalPriceToOrder(result) : null;
+                return result != null ? _mapper.Map<OrderDetailModel>(result) : null;
             }
 
             return null;
         }
         
-        public async Task<OrderModel> RemoveDetailFromOrder(int orderId, int productId, uint? count)
+        public async Task<OrderDetailModel> RemoveDetailFromOrder(int orderId, int productId, uint? count)
         {
             var result = await _orderRepository.DeleteOrderDetail(productId, orderId, count);
-            return result != null ? await AddTotalPriceToOrder(result) : null;
+            return result != null ? _mapper.Map<OrderDetailModel>(result) : null;
         }
 
-        public async Task<OrderModel> RemoveDetailFromOrder(string userId, int productId, uint? count)
+        public async Task<OrderDetailModel> RemoveDetailFromOrder(string userId, int productId, uint? count)
         {
-            var order = await _orderRepository.GetActiveOrderByUserId(userId);
+            var order = await _orderRepository.GetOrder(userId, false, OrderStatuses.OPENED);
             if (order != null)
             {
                 return await RemoveDetailFromOrder(order.Id, productId, count);
@@ -89,12 +102,12 @@ namespace WEB_API.Business.Services
         public async Task<OrderModel> ExecuteOrder(int orderId)
         {
             var result = await _orderRepository.UpdateOrderStatus(orderId, status: OrderStatuses.EXECUTED);
-            return result != null ? await AddTotalPriceToOrder(result) : null;
+            return result != null ? _mapper.Map<OrderModel>(result) : null;
         }
 
         public async Task<OrderModel> ExecuteOrder(string userId)
         {
-            var order = await _orderRepository.GetActiveOrderByUserId(userId);
+            var order = await _orderRepository.GetOrder(userId,false, OrderStatuses.OPENED);
             if (order != null)
             {
                 return await ExecuteOrder(order.Id);
@@ -106,12 +119,12 @@ namespace WEB_API.Business.Services
         public async Task<OrderModel> DiscardOrder(int orderId)
         {
             var result = await _orderRepository.DeleteOrder(orderId, revertDetails: true);
-            return result != null ? await AddTotalPriceToOrder(result)  : null;
+            return result != null ? _mapper.Map<OrderModel>(result)  : null;
         }
 
         public async Task<OrderModel> DiscardOrder(string userId)
         {
-            var order = await _orderRepository.GetActiveOrderByUserId(userId);
+            var order = await _orderRepository.GetOrder(userId, false, OrderStatuses.OPENED);
             if (order != null)
             {
                 return await DiscardOrder(order.Id);
@@ -119,12 +132,6 @@ namespace WEB_API.Business.Services
 
             return null;
         }
-        
-        private async Task<OrderModel> AddTotalPriceToOrder(Order result)
-        {
-            var outResult = _mapper.Map<OrderModel>(result);
-            outResult.TotalSum = await _orderRepository.CalculateTotalPrice(outResult.Id);
-            return outResult;
-        }
+
     }
 }

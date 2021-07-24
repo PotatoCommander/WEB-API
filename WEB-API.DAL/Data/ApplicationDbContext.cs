@@ -23,7 +23,7 @@ namespace WEB_API.DAL.Data
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Debug);
+            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Error);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -35,13 +35,13 @@ namespace WEB_API.DAL.Data
                 .IsUnique();
             builder.Entity<Rating>()
                 .HasKey(o => new { o.ProductId, o.ApplicationUserId });
-            builder.Entity<OrderDetail>().HasKey(o=> new {o.OrderId, o.ProductId});
+            builder.Entity<OrderDetail>().HasKey(o=> new {o.ProductId, o.OrderId});
             builder.Entity<Product>()
                 .Property(e => e.Rating)
-                .HasComputedColumnSql("ApiAdmin.GetAverage([Id])");
+                .HasComputedColumnSql("dbo.GetAverage([Id])");
             builder.Entity<OrderDetail>()
                 .Property(e => e.Price)
-                .HasComputedColumnSql("ApiAdmin.DetailPrice([ProductId], [Quantity])");
+                .HasComputedColumnSql("dbo.DetailPrice([ProductId], [Quantity])");
         }
     }
 }
