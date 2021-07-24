@@ -1,0 +1,10 @@
+﻿CREATE FUNCTION GetAverage(@Id int)
+    RETURNS REAL
+AS
+BEGIN
+    declare @bav real
+    select @bav =  AVG (ProductRating) FROM Ratings WHERE ProductId = @Id
+    RETURN ISNULL(@bav,0)
+END
+go
+

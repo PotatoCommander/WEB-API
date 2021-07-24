@@ -1,0 +1,5 @@
+﻿dotnet ef --startup-project C:\Users\Lenovo\RiderProjects\WEB-API\WEB-API.Web migrations add ProductAdded 
+target = path, startup = --startup-project
+Run from DAL folder, startup - startup project.
+dotnet ef database update --startup-project C:\Users\Lenovo\RiderProjects\WEB-API\WEB-API.Web
+

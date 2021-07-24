@@ -1,10 +1,19 @@
+using System.IO.Compression;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WEB_API.Business.Helpers;
+using WEB_API.Business.Interfaces;
+using WEB_API.Business.Services;
+using WEB_API.Business.Settings;
 using WEB_API.DAL.Data;
+using WEB_API.DAL.Models;
+using WEB_API.DAL.Repositories;
+using WEB_API.Web.Helpers.MapperProfiles;
 
 namespace WEB_API.Web
 {
@@ -16,33 +25,53 @@ namespace WEB_API.Web
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddSwaggerGen();
+            services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Fastest);
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<GzipCompressionProvider>();
+                //Is it unsafe?
+                options.EnableForHttps = true;
+            });
+            
+            services.AddControllers().ConfigureApiBehaviorOptions(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+            
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddIdentity<IdentityUser, IdentityRole>();
+            
+            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+                {
+                    config.SignIn.RequireConfirmedEmail = true;
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+            
+            var emailOptions = Configuration.GetSection("EmailService").Get<EmailServiceOptions>();
+            services.AddTransient<IEmailService>(s => new EmailService(emailOptions));
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IOrderService, OrderService>();
+            //learn DI
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddAutoMapper(typeof(MapperProfileBusinessToDAL), typeof(MapperProfileWeb));
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHttpsRedirection();
-
+            app.UseResponseCompression();
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-            
-            app.UseSwagger();
-            app.UseSwaggerUI();
         }
     }
 }
