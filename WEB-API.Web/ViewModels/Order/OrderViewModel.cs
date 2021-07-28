@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using WEB_API.Business.BusinessModels;
-using WEB_API.DAL.Models;
 using WEB_API.DAL.Models.Enums;
 
-namespace WEB_API.Web.ViewModels
+namespace WEB_API.Web.ViewModels.Order
 {
     public class OrderViewModel
     {

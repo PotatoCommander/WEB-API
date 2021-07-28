@@ -10,6 +10,7 @@ using WEB_API.DAL.Models;
 using WEB_API.DAL.Repositories;
 using WEB_API.Web.Helpers;
 using WEB_API.Web.ViewModels;
+using WEB_API.Web.ViewModels.Product;
 
 namespace WEB_API.Web.Controllers
 {

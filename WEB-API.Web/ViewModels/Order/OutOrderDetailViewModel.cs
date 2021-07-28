@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WEB_API.Web.ViewModels
+namespace WEB_API.Web.ViewModels.Order
 {
     public class OutOrderDetailViewModel
     {

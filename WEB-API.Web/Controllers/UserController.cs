@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using WEB_API.Business.Interfaces;
 using WEB_API.DAL.Models;
 using WEB_API.Web.ViewModels;
+using WEB_API.Web.ViewModels.User;
 
 namespace WEB_API.Web.Controllers
 {

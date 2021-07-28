@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using WEB_API.DAL.Models.Enums;
+﻿using WEB_API.DAL.Models.Enums;
 
-namespace WEB_API.Web.ViewModels
+namespace WEB_API.Web.ViewModels.Product
 {
     public class FilterProductViewModel
     {

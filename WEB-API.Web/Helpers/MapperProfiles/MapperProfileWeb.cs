@@ -3,6 +3,9 @@ using WEB_API.Business.BusinessModels;
 using WEB_API.DAL.Models;
 using WEB_API.Web.Helpers.MapperValueResolvers;
 using WEB_API.Web.ViewModels;
+using WEB_API.Web.ViewModels.Order;
+using WEB_API.Web.ViewModels.Product;
+using WEB_API.Web.ViewModels.User;
 
 namespace WEB_API.Web.Helpers.MapperProfiles
 {
