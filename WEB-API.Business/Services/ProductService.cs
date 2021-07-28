@@ -10,7 +10,6 @@ using WEB_API.DAL.Models;
 using WEB_API.DAL.Models.Enums;
 using WEB_API.DAL.Models.Filters;
 using WEB_API.DAL.Repositories;
-// ReSharper disable EnforceIfStatementBraces
 
 namespace WEB_API.Business.Services
 {
@@ -130,19 +129,40 @@ namespace WEB_API.Business.Services
         {
             var query = _repository.GetAllProducts();
             if (filter.Category != Categories.None)
+            {
                 query = query.Where(x => x.Category == filter.Category);
+            }
+
             if (filter.Genre != Genres.None)
+            {
                 query = query.Where(x => x.Genre == filter.Genre);
+            }
+
             if (filter.AgeRating != AgeRatings.None)
+            {
                 query = query.Where(x => x.AgeRating == filter.AgeRating);
+            }
+
             if (!string.IsNullOrEmpty(filter.SearchString))
+            {
                 query = query.Where(x => x.Name.ToLower(CultureInfo.InvariantCulture).Contains(filter.SearchString));
+            }
+
             if (filter.RatingFrom != null)
+            {
                 query = query.Where(x => x.Rating > filter.RatingFrom);
+            }
+
             if (filter.YearFrom != null)
+            {
                 query = query.Where(x => x.CreationTime.Year > filter.YearFrom);
+            }
+
             if (filter.YearTo != null)
+            {
                 query = query.Where(x => x.CreationTime.Year < filter.YearTo);
+            }
+
             return query;
         }
     }

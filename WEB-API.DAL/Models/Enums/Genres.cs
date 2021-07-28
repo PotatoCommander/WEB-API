@@ -2,7 +2,7 @@
 
 namespace WEB_API.DAL.Models.Enums
 {
-    public enum Genres: byte
+    public enum Genres
     {
         None,
         Horror,

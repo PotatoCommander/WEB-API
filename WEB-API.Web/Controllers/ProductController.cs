@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using WEB_API.Business.BusinessModels;
 using WEB_API.Business.Interfaces;
 using WEB_API.DAL.Models;
-using WEB_API.DAL.Models.Filters;
-using WEB_API.DAL.Repositories;
 using WEB_API.Web.Helpers;
 using WEB_API.Web.ViewModels;
 
@@ -83,14 +78,20 @@ namespace WEB_API.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var itemToUpdate = await _productService.GetProductById(model.Id);
-                var result = await _productService.UpdateProduct(_mapper.Map(model, itemToUpdate));
-                if (result != null)
+                var itemToUpdate = await _productService.GetProductById((int)model.Id);
+                if (itemToUpdate != null)
                 {
-                    return new JsonResult(result);
-                }
+                    var result = await _productService.UpdateProduct(_mapper.Map(model, itemToUpdate));
+                    if (result != null)
+                    {
+                        return Ok(result);
+                    }
 
-                ModelState.AddModelError("", "An error occured when updating database.");
+                    ModelState.AddModelError("", "An error occured when updating database.");
+                    return BadRequest(GetModelStateErrors(ModelState));  
+                }
+                
+                ModelState.AddModelError("", "Item to update doesn't exists.");
                 return BadRequest(GetModelStateErrors(ModelState));
             }
 
