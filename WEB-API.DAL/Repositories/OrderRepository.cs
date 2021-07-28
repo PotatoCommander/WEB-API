@@ -87,7 +87,6 @@ namespace WEB_API.DAL.Repositories
 
             return null;
         }
-
         public async Task<OrderDetail> DeleteOrderDetail(int productId, int orderId, uint? count)
         {
             var product = await _context.Products.FindAsync(productId);

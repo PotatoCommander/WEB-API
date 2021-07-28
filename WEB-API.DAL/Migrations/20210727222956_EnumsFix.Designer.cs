@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WEB_API.DAL.Data;
 
 namespace WEB_API.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210727222956_EnumsFix")]
+    partial class EnumsFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -298,9 +300,6 @@ namespace WEB_API.DAL.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("real")
                         .HasComputedColumnSql("dbo.GetAverage([Id])");
-
-                    b.Property<int>("YearOfProduction")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

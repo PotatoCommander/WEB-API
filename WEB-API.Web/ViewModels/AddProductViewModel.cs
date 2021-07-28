@@ -15,6 +15,8 @@ namespace WEB_API.Web.ViewModels
         public AgeRatings AgeRating { get; set; }
         [Required]
         public decimal Price { get; set; }
+        [Range(1945,2100, ErrorMessage = "Year of production invalid range.")]
+        public int YearOfProduction { get; set; }
         [EnumDataType(typeof(Categories), ErrorMessage = "Invalid category Enum value.")]
         public Categories Category { get; set; }
         [Required]

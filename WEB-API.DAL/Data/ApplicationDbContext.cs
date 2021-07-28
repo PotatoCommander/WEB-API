@@ -23,7 +23,7 @@ namespace WEB_API.DAL.Data
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Error);
+            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

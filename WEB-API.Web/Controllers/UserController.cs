@@ -24,7 +24,7 @@ namespace WEB_API.Web.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost("ChangePassword")]
+        [HttpPut("ChangePassword")]
         [Authorize]
         public async Task<ActionResult> ChangePassword(PasswordChangingViewModel model)
         {

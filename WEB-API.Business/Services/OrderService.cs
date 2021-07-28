@@ -81,6 +81,7 @@ namespace WEB_API.Business.Services
 
             return null;
         }
+        //TODO: calculate total sum
         
         public async Task<OrderDetailModel> RemoveDetailFromOrder(int orderId, int productId, uint? count)
         {

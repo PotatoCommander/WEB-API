@@ -5,8 +5,8 @@ namespace WEB_API.Web.ViewModels
 {
     public class EditProductViewModel
     {
-        [Required]
-        public int Id { get; set; }
+        [Required(ErrorMessage = "Id required")]
+        public int? Id { get; set; }
         [MaxLength(50)]
         public string Name { get; set; }
         [EnumDataType(typeof(Genres), ErrorMessage = "Invalid genres Enum value.")]

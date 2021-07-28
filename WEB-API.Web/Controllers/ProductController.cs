@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using WEB_API.Business.BusinessModels;
 using WEB_API.Business.Interfaces;
 using WEB_API.DAL.Models;
-using WEB_API.DAL.Models.Filters;
 using WEB_API.DAL.Repositories;
 using WEB_API.Web.Helpers;
 using WEB_API.Web.ViewModels;
@@ -23,9 +20,11 @@ namespace WEB_API.Web.Controllers
         private IMapper _mapper;
         private IProductService _productService;
         private UserManager<ApplicationUser> _userManager;
+        private IProductRepository _repository;
 
-        public ProductController(IMapper mapper, IProductService productService, UserManager<ApplicationUser> userManager)
+        public ProductController(IMapper mapper, IProductService productService, UserManager<ApplicationUser> userManager, IProductRepository repository)
         {
+            _repository = repository;
             _userManager = userManager;
             _mapper = mapper;
             _productService = productService;
@@ -62,6 +61,24 @@ namespace WEB_API.Web.Controllers
 
             return BadRequest(GetModelStateErrors(ModelState));
         }
+        //DEBUG------------------------------------------------------------------------
+        [HttpPost("AddProducts")]
+        public async Task<ActionResult> AddProducts(List<AddProductViewModel> model)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var item in model)
+                {
+                    await _repository.AddProduct(_mapper.Map<Product>(item));
+                }
+
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+        //DEBUG------------------------------------------------------------------------
+
         
         [HttpDelete("Delete")]
         [Authorize(Roles = Roles.Admin)]
@@ -83,14 +100,20 @@ namespace WEB_API.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var itemToUpdate = await _productService.GetProductById(model.Id);
-                var result = await _productService.UpdateProduct(_mapper.Map(model, itemToUpdate));
-                if (result != null)
+                var itemToUpdate = await _productService.GetProductById((int)model.Id);
+                if (itemToUpdate != null)
                 {
-                    return new JsonResult(result);
-                }
+                    var result = await _productService.UpdateProduct(_mapper.Map(model, itemToUpdate));
+                    if (result != null)
+                    {
+                        return Ok(result);
+                    }
 
-                ModelState.AddModelError("", "An error occured when updating database.");
+                    ModelState.AddModelError("", "An error occured when updating database.");
+                    return BadRequest(GetModelStateErrors(ModelState));  
+                }
+                
+                ModelState.AddModelError("", "Item to update doesn't exists.");
                 return BadRequest(GetModelStateErrors(ModelState));
             }
 

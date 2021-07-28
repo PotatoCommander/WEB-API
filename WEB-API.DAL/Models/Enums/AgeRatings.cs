@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace WEB_API.DAL.Models.Enums
 {
-    public enum AgeRatings: byte
+    public enum AgeRatings
     {
         None,
         PEGI3,
