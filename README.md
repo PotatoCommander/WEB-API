@@ -40,7 +40,7 @@ Designed with usage of 3-Layer architecture for separation DB-logic from busines
 - Optimization
   - DAL-level optimization by using IQueryable instead of IEnumerable where possible
   - AsNoTracking() for read-only methods
-  - DB Indexation
+  - DB Indexes
   - Response compression
   - Using EF Core caching where possible
   ## DB relations diagram
