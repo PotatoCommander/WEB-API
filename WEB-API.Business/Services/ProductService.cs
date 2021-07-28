@@ -145,7 +145,7 @@ namespace WEB_API.Business.Services
 
             if (!string.IsNullOrEmpty(filter.SearchString))
             {
-                query = query.Where(x => x.Name.ToLower(CultureInfo.InvariantCulture).Contains(filter.SearchString));
+                query = query.Where(x => x.Name != null && x.Name.ToLower().Contains(filter.SearchString));
             }
 
             if (filter.RatingFrom != null)
