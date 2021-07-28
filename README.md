@@ -77,3 +77,4 @@ Designed with usage of 3-Layer architecture for separation DB-logic from busines
    - Bugfixes
   
   
+Thanks @surinov for help
