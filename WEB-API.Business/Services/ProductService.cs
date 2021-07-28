@@ -79,8 +79,7 @@ namespace WEB_API.Business.Services
 
         private IQueryable<Product> PaginationProduct(ProductFilter filter, IQueryable<Product> query)
         {
-            query = query.Skip((filter.PageNumber - 1) * filter.PageSize)
-                .Take(filter.PageSize);
+            query = query.Skip((filter.PageNumber - 1) * filter.PageSize).Take(filter.PageSize);
             return query;
         }
 
@@ -155,12 +154,12 @@ namespace WEB_API.Business.Services
 
             if (filter.YearFrom != null)
             {
-                query = query.Where(x => x.CreationTime.Year > filter.YearFrom);
+                query = query.Where(x => x.YearOfProduction > filter.YearFrom);
             }
 
             if (filter.YearTo != null)
             {
-                query = query.Where(x => x.CreationTime.Year < filter.YearTo);
+                query = query.Where(x => x.YearOfProduction < filter.YearTo);
             }
 
             return query;

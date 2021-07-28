@@ -13,6 +13,7 @@ namespace WEB_API.DAL.Models
         public decimal Price { get; set; }
         public Categories Category { get; set; }
         public DateTime CreationTime { get; set; }
+        public int YearOfProduction { get; set; }
         public float Rating { get; set; }
         public uint Count { get; set; }
         
