@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using WEB_API.Business.BusinessModels;
 using WEB_API.Business.Interfaces;
 using WEB_API.DAL.Models;
+using WEB_API.DAL.Repositories;
 using WEB_API.Web.Helpers;
 using WEB_API.Web.ViewModels;
 
@@ -18,9 +20,11 @@ namespace WEB_API.Web.Controllers
         private IMapper _mapper;
         private IProductService _productService;
         private UserManager<ApplicationUser> _userManager;
+        private IProductRepository _repository;
 
-        public ProductController(IMapper mapper, IProductService productService, UserManager<ApplicationUser> userManager)
+        public ProductController(IMapper mapper, IProductService productService, UserManager<ApplicationUser> userManager, IProductRepository repository)
         {
+            _repository = repository;
             _userManager = userManager;
             _mapper = mapper;
             _productService = productService;
@@ -57,6 +61,24 @@ namespace WEB_API.Web.Controllers
 
             return BadRequest(GetModelStateErrors(ModelState));
         }
+        //DEBUG------------------------------------------------------------------------
+        [HttpPost("AddProducts")]
+        public async Task<ActionResult> AddProducts(List<AddProductViewModel> model)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var item in model)
+                {
+                    await _repository.AddProduct(_mapper.Map<Product>(item));
+                }
+
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+        //DEBUG------------------------------------------------------------------------
+
         
         [HttpDelete("Delete")]
         [Authorize(Roles = Roles.Admin)]

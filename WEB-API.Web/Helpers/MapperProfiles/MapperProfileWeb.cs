@@ -11,6 +11,7 @@ namespace WEB_API.Web.Helpers.MapperProfiles
         public MapperProfileWeb()
         {
             CreateMap<AddProductViewModel, ProductModel>();
+            CreateMap<AddProductViewModel, Product>();
             CreateMap<EditProductViewModel, ProductModel>();
             ForAllPropertyMaps(pm => pm.TypeMap.SourceType == typeof(EditProductViewModel),
                 (pm, c) => c.MapFrom(new IgnoreNullResolver(), pm.SourceMember.Name));
